@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@plugin '../hero.ts';
+/* Note: You may need to change the path to fit your project structure */
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: "SegoeUiBlack";
+  src: url("/fonts/segoe.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ArialRoundedmtBold";
+  src: url("/fonts/arialroundedmtbold.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  letter-spacing: 0.6px;
+  font-family: "ArialRoundedmtBold";
+}
