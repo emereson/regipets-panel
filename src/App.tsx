@@ -6,6 +6,7 @@ import Header from "./header/Header";
 import { Toaster } from "sonner";
 import Mascotas from "./modules/mascota/mascotas/Mascotas";
 import Busqueda from "./modules/mascota/busqueda/Busqueda";
+import Razas from "./modules/mascota/razas/Razas";
 
 const useUserData = () => {
   const userDataJSON = localStorage.getItem("userData");
@@ -27,6 +28,7 @@ function App() {
           <Route element={<ProtectedRoutes />}>
             <Route path="/mascotas" element={<Mascotas />} />
             <Route path="/mascotas/busqueda" element={<Busqueda />} />
+            <Route path="/mascotas/raza" element={<Razas />} />
           </Route>
         </Routes>
       </div>

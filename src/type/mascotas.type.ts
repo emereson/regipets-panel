@@ -1,3 +1,6 @@
+import type { Departamento, Distrito, Provincia } from "./ubigeo.type";
+import type { User } from "./user";
+
 export interface Mascota {
   id: number;
   dni: string;
@@ -23,6 +26,12 @@ export interface Mascota {
   usuario_mod: string;
   fecha_muerte: string;
   tipo_reg: string;
+  especie: Especie;
+  raza: Raza;
+  usuario: User;
+  departamento: Departamento;
+  provincia: Provincia;
+  distrito: Distrito;
 }
 
 export interface Especie {

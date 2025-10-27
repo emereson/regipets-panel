@@ -34,8 +34,10 @@ const Busqueda = () => {
     fechaDesde: getTodayDate(),
     fechaHasta: getTodayDate(),
   });
+  const [page, setPage] = useState<number>(1);
+  const [pages, setPages] = useState<number>(1);
 
-  console.log(dataFilters);
+  console.log(page);
 
   const findMascotas = async () => {
     setIsLoading(true);
@@ -50,13 +52,15 @@ const Busqueda = () => {
       if (dataFilters.provincia)
         params.append("provincia", dataFilters.provincia);
       if (dataFilters.distrito) params.append("distrito", dataFilters.distrito);
-      if (dataFilters.dniNombre) params.append("search", dataFilters.dniNombre);
+      if (dataFilters.dniNombre)
+        params.append("dniNombre", dataFilters.dniNombre);
       if (dataFilters.especie) params.append("especie", dataFilters.especie);
       if (dataFilters.raza) params.append("raza", dataFilters.raza);
       if (dataFilters.fechaDesde)
         params.append("fechaDesde", dataFilters.fechaDesde);
       if (dataFilters.fechaHasta)
         params.append("fechaHasta", dataFilters.fechaHasta);
+      if (page) params.append("page", page.toString());
 
       const urlWithParams = params.toString()
         ? `${url}?${params.toString()}`
@@ -64,6 +68,7 @@ const Busqueda = () => {
 
       const res = await axios.get(urlWithParams, config);
       setMascotas(res.data.mascotas || []);
+      setPages(res.data.totalPages || 1);
     } catch (err) {
       console.error("Error al obtener mascotas:", err);
       setMascotas([]);
@@ -80,9 +85,9 @@ const Busqueda = () => {
   // Cargar mascotas al montar
   useEffect(() => {
     findMascotas();
-  }, []);
+  }, [page]);
 
-  console.log(dataFilters);
+  console.log(mascotas);
 
   // Opcional: buscar automáticamente cuando cambian los filtros
   // useEffect(() => {
@@ -90,7 +95,7 @@ const Busqueda = () => {
   // }, [dataFilters]);
 
   return (
-    <main className="w-full h-screen p-4 overflow-hidden">
+    <main className="w-full h-screen p-3 overflow-hidden">
       <section className="w-full h-full p-4 bg-white flex flex-col gap-4 rounded-xl shadow-[0px_0_10px_rgba(255,255,255)]">
         <div className="flex items-end gap-2 font-semibold text-lg text-neutral-700">
           <MdOutlinePets className="text-2xl text-orange-500" />
@@ -106,7 +111,13 @@ const Busqueda = () => {
           isLoading={isLoading}
         />
 
-        <TablaMacotas mascotas={mascotas} />
+        <TablaMacotas
+          mascotas={mascotas}
+          setPage={setPage}
+          page={page}
+          isLoading={isLoading}
+          pages={pages}
+        />
       </section>
     </main>
   );

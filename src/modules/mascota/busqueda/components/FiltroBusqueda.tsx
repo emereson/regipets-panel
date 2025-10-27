@@ -100,11 +100,11 @@ const FiltroBusqueda = ({
   }, [selectEspecie, selectRaza]);
 
   return (
-    <section className="w-full flex flex-col items-end gap-4 relative">
+    <section className="w-full flex flex-col items-end gap-2 relative">
       <div className="w-full  flex gap-2">
         <Input
           classNames={inputClassNames}
-          label="Nombre de la mascota"
+          label="DNI o Nombre de la mascota"
           labelPlacement="outside"
           name="nombreMascota"
           type="text"
@@ -119,11 +119,11 @@ const FiltroBusqueda = ({
         />
         <Input
           classNames={inputClassNames}
-          label="DNI o Nombre del dueño"
+          label=" Nombre del dueño"
           labelPlacement="outside"
           name="dniDueno"
           type="text"
-          placeholder="Buscar por DNI o nombre..."
+          placeholder="Buscar por  nombre..."
           onChange={(e) =>
             setDataFilters({ nombreDueno: e.target.value || null })
           }
@@ -144,19 +144,25 @@ const FiltroBusqueda = ({
           selectedKeys={selectDepartamento ? [selectDepartamento] : []}
           onChange={handleDepartamento}
         >
-          {departamentos.map((departamento) => (
-            <SelectItem key={departamento.id.toString()}>
-              {departamento.Departamento}
+          <>
+            <SelectItem key="" textValue="TODOS">
+              <p className="text-[12px]">TODOS</p>
             </SelectItem>
-          ))}
+            {departamentos.map((departamento) => (
+              <SelectItem
+                key={departamento.id.toString()}
+                textValue={departamento.Departamento}
+                className="text-[6px]"
+              >
+                <p className="text-[12px]">{departamento.Departamento}</p>
+              </SelectItem>
+            ))}
+          </>
         </Select>
 
         <Select
           className="min-w-[180px] max-w-[180px]"
-          classNames={{
-            ...selectClassNames,
-            value: "text-[0.8rem]",
-          }}
+          classNames={selectClassNames}
           labelPlacement="outside"
           label="Provincia"
           placeholder="Seleccionar..."
@@ -167,23 +173,30 @@ const FiltroBusqueda = ({
           selectedKeys={selectProvincia ? [selectProvincia] : []}
           onChange={handleProvincia}
         >
-          {provincias
-            .filter(
-              (provincia) => provincia.UbigeoId === Number(selectDepartamento)
-            )
-            .map((provincia) => (
-              <SelectItem key={provincia.id.toString()}>
-                {provincia.Provincia}
-              </SelectItem>
-            ))}
+          <>
+            <SelectItem key="" textValue="TODOS">
+              <p className="text-[11px]">TODOS</p>
+            </SelectItem>
+
+            {provincias
+              .filter(
+                (provincia) => provincia.UbigeoId === Number(selectDepartamento)
+              )
+              .map((provincia) => (
+                <SelectItem
+                  key={provincia.id.toString()}
+                  textValue={provincia.Provincia}
+                  className="text-[6px]"
+                >
+                  <p className="text-[11px]">{provincia.Provincia}</p>
+                </SelectItem>
+              ))}
+          </>
         </Select>
 
         <Select
           className="min-w-[180px] max-w-[180px]"
-          classNames={{
-            ...selectClassNames,
-            value: "text-[0.8rem]",
-          }}
+          classNames={selectClassNames}
           labelPlacement="outside"
           label="Distrito"
           placeholder="Seleccionar..."
@@ -194,15 +207,24 @@ const FiltroBusqueda = ({
           selectedKeys={selectDistrito ? [selectDistrito] : []}
           onChange={handleDistritos}
         >
-          {distritos
-            .filter(
-              (distrito) => distrito.UbigeoProvId === Number(selectProvincia)
-            )
-            .map((distrito) => (
-              <SelectItem key={distrito.id.toString()}>
-                {distrito.Distrito}
-              </SelectItem>
-            ))}
+          <>
+            <SelectItem key="" textValue="TODOS">
+              <p className="text-[11px]">TODOS</p>
+            </SelectItem>
+            {distritos
+              .filter(
+                (distrito) => distrito.UbigeoProvId === Number(selectProvincia)
+              )
+              .map((distrito) => (
+                <SelectItem
+                  key={distrito.id.toString()}
+                  textValue={distrito.Distrito}
+                  className="text-[6px]"
+                >
+                  <p className="text-[11px]">{distrito.Distrito}</p>
+                </SelectItem>
+              ))}
+          </>
         </Select>
       </div>
 
@@ -219,20 +241,29 @@ const FiltroBusqueda = ({
           selectedKeys={selectEspecie ? [selectEspecie] : []}
           onChange={handleEspecie}
         >
-          {especies.map((especie) => (
-            <SelectItem key={especie.id.toString()}>
-              {especie.title_es}
+          <>
+            <SelectItem key="" textValue="TODOS">
+              <p className="text-[11px]">TODOS</p>
             </SelectItem>
-          ))}
+            {especies.map((especie) => (
+              <SelectItem
+                key={especie.id.toString()}
+                textValue={especie.title_es}
+                className="text-[6px]"
+              >
+                <p className="text-[11px]">{especie.title_es}</p>
+              </SelectItem>
+            ))}
+          </>
         </Select>
 
         <Autocomplete
           className="w-full"
           inputProps={{
             classNames: {
-              input: "text-xs",
-              inputWrapper: "min-h-10 border-1.5 border-neutral-400",
-              label: "pb-1 text-[0.8rem] text-neutral-800 font-semibold",
+              input: "text-[11px]",
+              inputWrapper: "min-h-9 border-1.5 border-neutral-400",
+              label: "pb-1 text-[11px] text-neutral-800 font-semibold",
             },
           }}
           labelPlacement="outside"
@@ -246,9 +277,16 @@ const FiltroBusqueda = ({
           onSelectionChange={(key) => setSelectRaza(key as string)}
           isLoading={loadingRaza}
         >
-          {razas.map((raza) => (
-            <SelectItem key={raza.id.toString()}>{raza.title_es}</SelectItem>
-          ))}
+          <>
+            <SelectItem key="" textValue="TODOS">
+              <p className="text-[11px]">TODOS</p>
+            </SelectItem>
+            {razas.map((raza) => (
+              <SelectItem key={raza.id.toString()} textValue={raza.title_es}>
+                <p className="text-[11px]">{raza.title_es}</p>
+              </SelectItem>
+            ))}
+          </>
         </Autocomplete>
         <Input
           classNames={inputClassNames}
@@ -276,7 +314,7 @@ const FiltroBusqueda = ({
         />
         <Button
           type="button"
-          className="bg-[#0356ba] h-11  min-w-28 cursor-pointer text-sm text-white"
+          className="bg-[#0356ba] h-10  min-w-28 cursor-pointer text-sm text-white"
           onPress={findMascotas}
           isLoading={isLoading}
           isDisabled={isLoading}

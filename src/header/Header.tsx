@@ -17,7 +17,7 @@ const Header = () => {
   };
   return (
     <header
-      className="w-[65px] h-[100vh] bg-[#0356ba] flex flex-col z-30 border-r-3 border-orange-500
+      className="w-[62px] h-[100vh] bg-[#0356ba] flex flex-col z-30 border-r-3 border-orange-500
              hover:w-[280px] duration-300 overflow-hidden 
              shadow-[4px_0_10px_rgba(249,115,22,0.5)]"
     >

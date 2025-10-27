@@ -33,7 +33,7 @@ export const useNavModule = ({
   // Estilos computados para el header
   const headerClasses = useMemo(
     () =>
-      `w-[280px] flex items-center p-4 px-6 cursor-pointer transition-all duration-300 border-b border-zinc-300 group ${
+      `w-[280px] flex items-center p-4 px-5 cursor-pointer transition-all duration-300 border-b border-zinc-300 group ${
         isActive
           ? "bg-[#0356ba] text-white"
           : "text-white hover:bg-[#1666c8] hover:text-white"
