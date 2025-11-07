@@ -7,6 +7,8 @@ import { Toaster } from "sonner";
 import Mascotas from "./modules/mascota/mascotas/Mascotas";
 import Busqueda from "./modules/mascota/busqueda/Busqueda";
 import Razas from "./modules/mascota/razas/Razas";
+import Ordenes from "./modules/mascota/ordenes/Ordenes";
+import Usuarios from "./modules/usuarios/usuarios/Usuarios";
 
 const useUserData = () => {
   const userDataJSON = localStorage.getItem("userData");
@@ -26,9 +28,14 @@ function App() {
           <Route path="/log-in" element={<Login />} />
 
           <Route element={<ProtectedRoutes />}>
+            {/* mascotas */}
+            <Route path="/" element={<Mascotas />} />
             <Route path="/mascotas" element={<Mascotas />} />
+            <Route path="/mascotas/ordenes" element={<Ordenes />} />
             <Route path="/mascotas/busqueda" element={<Busqueda />} />
             <Route path="/mascotas/raza" element={<Razas />} />
+            {/* usuarios */}
+            <Route path="/usuarios" element={<Usuarios />} />
           </Route>
         </Routes>
       </div>

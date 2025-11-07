@@ -87,8 +87,6 @@ const Busqueda = () => {
     findMascotas();
   }, [page]);
 
-  console.log(mascotas);
-
   // Opcional: buscar automáticamente cuando cambian los filtros
   // useEffect(() => {
   //   findMascotas();

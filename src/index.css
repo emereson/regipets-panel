@@ -22,4 +22,19 @@
 body {
   letter-spacing: 0.6px;
   font-family: "ArialRoundedmtBold";
+  font-weight: 400;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #044391c5;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #f5841a;
+  border-radius: 5px;
 }

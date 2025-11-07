@@ -47,4 +47,5 @@ export interface Raza {
   title_es: string;
   description_en: string;
   description_es: string;
+  especie: Especie;
 }

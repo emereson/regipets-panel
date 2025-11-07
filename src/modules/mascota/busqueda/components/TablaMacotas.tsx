@@ -33,6 +33,7 @@ const TablaMacotas = ({ mascotas, isLoading, page, setPage, pages }: Props) => {
         }}
         isHeaderSticky
         isStriped
+        radius="sm"
       >
         <TableHeader>
           <TableColumn className={tableColumnStyle}>IMAGEN</TableColumn>

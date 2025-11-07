@@ -4,7 +4,9 @@ export interface Login {
 }
 
 export interface User {
+  id: number;
   activo: string;
+  nombre: string;
   apellido: string;
   avatar_facebook: string;
   celular: string;
@@ -12,8 +14,8 @@ export interface User {
   estado: string;
   fecha_nacimiento: string;
   foto: string;
-  nombre: string;
   sexo: string;
   telefono: string;
   token_activacion: string;
+  rol: string;
 }

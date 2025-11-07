@@ -56,6 +56,18 @@ const NavMascota = memo(({ openListModule, setOpenListModule }: Props) => {
         </Link>
         <Link
           className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
+          to="/mascotas/ordenes"
+        >
+          <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />
+          <div className="relative z-10 flex items-center gap-6">
+            <MdOutlineCircle className="text-sm transition-all duration-300 group-hover/item:scale-125 group-hover/item:rotate-180" />
+            <span className="text-sm font-normal group-hover/item:translate-x-1 transition-transform duration-300">
+              Ordenes
+            </span>
+          </div>
+        </Link>
+        <Link
+          className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
           to="/mascotas/busqueda"
         >
           <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />

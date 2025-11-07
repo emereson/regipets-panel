@@ -20,8 +20,10 @@ export const selectNoLabelClassNames = {
   label: "hidden",
 };
 
-export const tableColumnStyle = "bg-orange-500 text-[11px] text-white";
-export const tableCellStyle = " text-[11px] text-neutral-800 p-1 px-4";
+export const tableColumnStyle =
+  "w-min bg-orange-500 text-[11px] text-white px-2";
+export const tableCellStyle =
+  "w-min text-[11px] font text-neutral-800 p-1 px-2 ";
 
 // export const preventNonNumericInput = (e) => {
 //   e.target.value = e.target.value.replace(/[^0-9]/g, "");
