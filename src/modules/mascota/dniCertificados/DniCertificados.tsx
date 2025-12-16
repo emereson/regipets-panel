@@ -6,7 +6,7 @@ import { Divider } from "@heroui/react";
 import TablaMacotas from "./components/TablaPedidos";
 import type { Pedido } from "../../../type/pedido.type";
 
-const Ordenes = () => {
+const DniCertificados = () => {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
 
   const findMascotas = async () => {
@@ -22,14 +22,12 @@ const Ordenes = () => {
     findMascotas();
   }, []);
 
-  console.log(pedidos);
-
   return (
     <main className="w-full h-screen p-4  overflow-hidden">
       <section className="w-full h-full p-4 bg-white flex flex-col gap-4 rounded-xl    shadow-[0px_0_10px_rgba(255,255,255)]">
         <div className="flex items-end gap-2  font-semibold text-lg  text-neutral-700">
           <MdOutlinePets className="text-2xl text-orange-500" />
-          <h1 className="leading-4">Ordenes</h1>
+          <h1 className="leading-4">Dni y Certificados</h1>
         </div>
         <Divider className="bg-orange-100 h-0.5" />
 
@@ -39,4 +37,4 @@ const Ordenes = () => {
   );
 };
 
-export default Ordenes;
+export default DniCertificados;

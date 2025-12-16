@@ -18,4 +18,5 @@ export interface User {
   telefono: string;
   token_activacion: string;
   rol: string;
+  password: string;
 }

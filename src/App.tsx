@@ -9,6 +9,8 @@ import Busqueda from "./modules/mascota/busqueda/Busqueda";
 import Razas from "./modules/mascota/razas/Razas";
 import Ordenes from "./modules/mascota/ordenes/Ordenes";
 import Usuarios from "./modules/usuarios/usuarios/Usuarios";
+import Aprobacion from "./modules/mascota/aprobacion/Aprobacion";
+import Convenios from "./modules/mascota/convenios/Convenios";
 
 const useUserData = () => {
   const userDataJSON = localStorage.getItem("userData");
@@ -34,6 +36,13 @@ function App() {
             <Route path="/mascotas/ordenes" element={<Ordenes />} />
             <Route path="/mascotas/busqueda" element={<Busqueda />} />
             <Route path="/mascotas/raza" element={<Razas />} />
+            <Route path="/mascotas/convenios" element={<Convenios />} />
+
+            <Route
+              path="/mascotas/aprobacion-registros"
+              element={<Aprobacion />}
+            />
+
             {/* usuarios */}
             <Route path="/usuarios" element={<Usuarios />} />
           </Route>

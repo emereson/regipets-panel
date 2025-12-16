@@ -6,8 +6,8 @@ import {
 import { RiSearchEyeFill } from "react-icons/ri";
 import { departamentos } from "../../../../data/ubigeos/departamentos";
 import { provincias } from "../../../../data/ubigeos/provincias";
-import { useEffect, useState } from "react";
 import { distritos } from "../../../../data/ubigeos/distritos";
+import { useEffect, useState } from "react";
 import useSelectEspeciesRaza from "../../../../hooks/SelectEspeciesRaza";
 
 interface DataFilters {

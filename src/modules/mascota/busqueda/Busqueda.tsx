@@ -37,8 +37,6 @@ const Busqueda = () => {
   const [page, setPage] = useState<number>(1);
   const [pages, setPages] = useState<number>(1);
 
-  console.log(page);
-
   const findMascotas = async () => {
     setIsLoading(true);
     const url = `${import.meta.env.VITE_URL_API}/mascota/admin`;
@@ -113,8 +111,8 @@ const Busqueda = () => {
           mascotas={mascotas}
           setPage={setPage}
           page={page}
-          isLoading={isLoading}
           pages={pages}
+          isLoading={isLoading}
         />
       </section>
     </main>

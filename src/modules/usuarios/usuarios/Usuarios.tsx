@@ -67,6 +67,7 @@ const Usuarios = () => {
           page={page}
           isLoading={isLoading}
           pages={pages}
+          findUsuarios={findUsuarios}
         />
       </section>
     </main>

@@ -38,7 +38,7 @@ const TablaEspecies = ({ especies, findMascotas }: Props) => {
   };
 
   return (
-    <section className="w-fit  relative flex flex-col gap-2">
+    <section className="w-1/2  relative flex flex-col gap-2">
       <div className="w-full flex justify-between items-end">
         <h2 className="font-bold ">Especies</h2>
         <ModalAddEspecie findMascotas={findMascotas} />

@@ -13,6 +13,13 @@
 }
 
 @font-face {
+  font-family: "segoeui";
+  src: url("/fonts/3871-font.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "ArialRoundedmtBold";
   src: url("/fonts/arialroundedmtbold.ttf") format("opentype");
   font-weight: normal;
@@ -37,4 +44,5 @@ body {
 *::-webkit-scrollbar-thumb {
   background-color: #f5841a;
   border-radius: 5px;
+  color: rgb(57, 57, 57);
 }

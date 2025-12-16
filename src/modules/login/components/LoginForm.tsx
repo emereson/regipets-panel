@@ -33,7 +33,7 @@ const LoginForm = () => {
       })
 
       .catch((err) => {
-        setError(err?.response?.data?.error || "error");
+        setError(err?.response?.data?.message || "error");
         setloading(false);
       });
   };

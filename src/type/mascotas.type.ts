@@ -6,7 +6,6 @@ export interface Mascota {
   dni: string;
   imagen: string;
   nombre: string;
-  apellido: string;
   sexo: string;
   tamano: string;
   color: string;
@@ -27,11 +26,20 @@ export interface Mascota {
   fecha_muerte: string;
   tipo_reg: string;
   especie: Especie;
+  especie_id: number;
   raza: Raza;
   usuario: User;
+  departamento_id: string | number;
+  provincia_id: string | number;
+  distrito_id: string | number;
   departamento: Departamento;
   provincia: Provincia;
   distrito: Distrito;
+  usuario_registrado_id: string | number;
+  creador: User;
+  estado_verificacion: string;
+  direccion: string;
+  tipo_mascota: string;
 }
 
 export interface Especie {

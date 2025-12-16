@@ -9,7 +9,7 @@ import {
   SelectItem,
   useDisclosure,
 } from "@heroui/react";
-import { FaPlus } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaPlus } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useRef, useState } from "react";
 import axios from "axios";
@@ -24,6 +24,7 @@ import {
 import type { User } from "../../../../../type/user";
 import { useImagePreview } from "../../../../../hooks/useImagePreview";
 import { RiImageAddFill } from "react-icons/ri";
+import { onInputNumber } from "../../../../../utils/onInputs";
 
 interface Props {
   findUsuarios: () => void;
@@ -40,6 +41,7 @@ const ModalAddUsuario = ({ findUsuarios }: Props) => {
   const { register, handleSubmit, reset } = useForm<User>();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [loading, setLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const submit = async (data: User) => {
     setLoading(true);
@@ -65,7 +67,6 @@ const ModalAddUsuario = ({ findUsuarios }: Props) => {
         findUsuarios();
         reset();
         clearImage();
-
         onOpenChange();
       })
       .catch((err) => {
@@ -77,11 +78,15 @@ const ModalAddUsuario = ({ findUsuarios }: Props) => {
       .finally(() => setLoading(false));
   };
 
+  const toggleVisibility = () => setIsVisible(!isVisible);
+  1;
+
   return (
     <section>
       {loading && <Loading />}
 
       <Button
+        className="bg-[#0356ba] "
         size="sm"
         color="primary"
         startContent={<FaPlus />}
@@ -124,19 +129,47 @@ const ModalAddUsuario = ({ findUsuarios }: Props) => {
                   size="sm"
                 />
               </div>
+              <Input
+                isRequired
+                classNames={inputClassNames}
+                label="Correo Electrónico"
+                labelPlacement="outside"
+                placeholder="..."
+                variant="bordered"
+                {...register("email")}
+                color="primary"
+                radius="sm"
+                type="email"
+                size="sm"
+              />
               <div className="w-full flex gap-2">
                 <Input
                   isRequired
                   classNames={inputClassNames}
-                  label="Correo Electrónico"
+                  label="Contraseña"
                   labelPlacement="outside"
-                  placeholder="..."
                   variant="bordered"
-                  {...register("email")}
+                  placeholder="..."
+                  {...register("password")}
                   color="primary"
                   radius="sm"
-                  type="email"
                   size="sm"
+                  id="passwordUsuario"
+                  type={isVisible ? "text" : "password"}
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
+                      aria-label="toggle password visibility"
+                    >
+                      {isVisible ? (
+                        <FaEyeSlash className="text-xl text-blue-600 pointer-events-none flex-shrink-0" />
+                      ) : (
+                        <FaEye className="text-xl text-blue-600 pointer-events-none flex-shrink-0" />
+                      )}
+                    </button>
+                  }
                 />
                 <Input
                   isRequired
@@ -152,6 +185,7 @@ const ModalAddUsuario = ({ findUsuarios }: Props) => {
                   radius="sm"
                   type="tel"
                   size="sm"
+                  onInput={onInputNumber}
                 />
               </div>
               <div className="w-full flex gap-2">

@@ -1,38 +1,93 @@
-import { Input } from "@heroui/react";
+import { Button, Input } from "@heroui/react";
 import { inputClassNames } from "../../../../utils/classNames";
 import { RiSearchEyeFill } from "react-icons/ri";
-
+import ModalAddMascota from "./CrudMacotas/AddMascota";
+import type { User } from "../../../../type/user";
+interface DataFilters {
+  dniNombre: string | null;
+  correo: string | null;
+}
+interface DataFiltersUser {
+  search: string | null;
+}
 interface Props {
-  setDniNombre: (e: string) => void;
-  dniNombre: string;
   findMascotas: () => void;
+  usuarios: User[];
+  dataFilters: DataFiltersUser;
+  setDataFilters: (e: DataFiltersUser) => void;
+  dataFiltersMascotas: DataFilters;
+  setDataFiltersMascotas: (e: DataFilters) => void;
+  findUsuarios: () => void;
 }
 
-const FiltroMacotas = ({ setDniNombre, dniNombre, findMascotas }: Props) => {
+const FiltroMacotas = ({
+  findMascotas,
+  usuarios,
+  dataFilters,
+  setDataFilters,
+  dataFiltersMascotas,
+  setDataFiltersMascotas,
+  findUsuarios,
+}: Props) => {
   return (
-    <section className="w-fit flex items-end gap-2 relative ">
-      <Input
-        className="w-xs"
-        classNames={inputClassNames}
-        label="DNI/NOMBRE APELLIDOS"
-        labelPlacement="outside"
-        name="DNI/NOMBRE APELLIDOS"
-        type="string"
-        placeholder="..."
-        onChange={(e) => setDniNombre(e.target.value)}
-        value={dniNombre}
-        radius="sm"
-        size="md"
-        id="correoUsuario"
-        variant="bordered"
+    <section className="w-full flex items-end gap-1 justify-between relative ">
+      <div className="flex items-end gap-1">
+        <Input
+          className="w-3xs"
+          classNames={inputClassNames}
+          label="DNI/ NOMBRE DE LA MASCOTA"
+          labelPlacement="outside"
+          name="DNI/ NOMBRE DE LA MASCOTA"
+          type="text"
+          placeholder="..."
+          onChange={(e) =>
+            setDataFiltersMascotas({
+              ...dataFiltersMascotas,
+              dniNombre: e.target.value || null,
+            })
+          }
+          value={dataFiltersMascotas.dniNombre || ""}
+          radius="sm"
+          size="sm"
+          id="correoUsuario"
+          variant="bordered"
+        />
+        <Input
+          className="w-3xs"
+          classNames={inputClassNames}
+          label="CORREO DEL DUEÑO"
+          labelPlacement="outside"
+          name="CORREO DEL DUEÑO"
+          type="text"
+          placeholder="..."
+          onChange={(e) =>
+            setDataFiltersMascotas({
+              ...dataFiltersMascotas,
+              correo: e.target.value || null,
+            })
+          }
+          value={dataFiltersMascotas.correo || ""}
+          radius="sm"
+          size="sm"
+          id="correoUsuario"
+          variant="bordered"
+        />
+        <Button
+          type="submit"
+          className=" bg-orange-500 h-9 min-w-[50px]  flex items-center justify-center cursor-pointer hover:bg-[#2776d8] transition-colors"
+          onPress={findMascotas}
+          radius="sm"
+        >
+          <RiSearchEyeFill className="text-xl text-white" />
+        </Button>
+      </div>
+      <ModalAddMascota
+        findMascotas={findMascotas}
+        usuarios={usuarios}
+        dataFilters={dataFilters}
+        setDataFilters={setDataFilters}
+        findUsuarios={findUsuarios}
       />
-      <button
-        type="submit"
-        className="absolute bg-orange-500 h-11 min-w-[56px] -right-12 rounded-r-xl -bottom-0.5 z-[2] flex items-center justify-center cursor-pointer hover:bg-orange-400 transition-colors"
-        onClick={findMascotas}
-      >
-        <RiSearchEyeFill className="text-2xl text-white" />
-      </button>
     </section>
   );
 };

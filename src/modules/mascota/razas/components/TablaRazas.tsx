@@ -107,7 +107,7 @@ const TablaRazas = ({
   const hasMore = list.items.length < filteredRazas.length;
 
   return (
-    <section className="w-full  relative flex flex-col gap-2 overflow-hidden">
+    <section className="w-1/2  relative flex flex-col gap-2 overflow-hidden">
       <div className="w-full flex justify-between items-end">
         <h2 className="font-bold ">Razas</h2>
         <ModalAddRaza especies={especies} findRazas={findRazas} />

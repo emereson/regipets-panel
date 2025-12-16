@@ -6,10 +6,17 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Tooltip,
+  useDisclosure,
 } from "@heroui/react";
 import type { User } from "../../../../type/user";
 import { tableCellStyle, tableColumnStyle } from "../../../../utils/classNames";
 import Loading from "../../../../hooks/Loading";
+import { useState } from "react";
+import { FaEdit } from "react-icons/fa";
+import ModalEditUsuario from "./CrudUsuario/ModalEditUsuario";
+import { MdDelete } from "react-icons/md";
+import ModalDeleteUsuario from "./CrudUsuario/ModalDeleteUsuario";
 
 interface Props {
   usuarios: User[];
@@ -17,6 +24,7 @@ interface Props {
   setPage: (e: number) => void;
   page: number;
   pages: number;
+  findUsuarios: () => void;
 }
 
 const TableUsuarios = ({
@@ -25,7 +33,24 @@ const TableUsuarios = ({
   page,
   setPage,
   pages,
+  findUsuarios,
 }: Props) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectUsuario, setSelectUsuario] = useState<User | null>(null);
+  const [selectModal, setSelectModal] = useState("");
+
+  const handleEditarUsuario = (usuario: User) => {
+    setSelectUsuario(usuario);
+    setSelectModal("editar");
+    onOpen();
+  };
+
+  const handleDeleteUsuario = (usuario: User) => {
+    setSelectUsuario(usuario);
+    setSelectModal("eliminar");
+    onOpen();
+  };
+
   return (
     <section className="w-full relative flex flex-col gap-4 overflow-hidden">
       {" "}
@@ -41,7 +66,7 @@ const TableUsuarios = ({
         isStriped
       >
         <TableHeader>
-          <TableColumn className={`${tableColumnStyle} max-w-8`}>
+          <TableColumn className={`${tableColumnStyle} max-w-14`}>
             FOTO
           </TableColumn>
           <TableColumn className={tableColumnStyle}>
@@ -60,10 +85,13 @@ const TableUsuarios = ({
         <TableBody items={usuarios}>
           {(usuario) => (
             <TableRow key={usuario.id}>
-              <TableCell className={`${tableCellStyle}  max-w-8`}>
+              <TableCell className={`${tableCellStyle}  max-w-14`}>
                 <img
-                  className="w-full object-cover rounded-full"
-                  src={usuario.foto || "/logo.webp"}
+                  className="w-12 h-12  "
+                  src={
+                    `${import.meta.env.VITE_URL_IMAGE}/${usuario.foto}` ||
+                    "/logo.webp"
+                  }
                   alt="foto del usuario"
                 />
               </TableCell>
@@ -80,7 +108,32 @@ const TableUsuarios = ({
               </TableCell>
               <TableCell className={tableCellStyle}>{usuario.rol}</TableCell>
               <TableCell className={tableCellStyle}>{usuario.estado}</TableCell>
-              <TableCell className={tableCellStyle}>{usuario.id}</TableCell>
+              <TableCell className={tableCellStyle}>
+                <div className="flex items-center gap-2">
+                  <Tooltip
+                    content="Editar"
+                    showArrow={true}
+                    size="sm"
+                    color="primary"
+                  >
+                    <FaEdit
+                      className="text-xl text-blue-600 cursor-pointer"
+                      onClick={() => handleEditarUsuario(usuario)}
+                    />
+                  </Tooltip>
+                  <Tooltip
+                    content="Eliminar"
+                    showArrow={true}
+                    size="sm"
+                    color="primary"
+                  >
+                    <MdDelete
+                      className="text-2xl text-red-600 cursor-pointer"
+                      onClick={() => handleDeleteUsuario(usuario)}
+                    />
+                  </Tooltip>
+                </div>
+              </TableCell>
             </TableRow>
           )}
         </TableBody>
@@ -98,6 +151,24 @@ const TableUsuarios = ({
           size="sm"
         />
       </div>
+      {selectUsuario && selectModal === "editar" && (
+        <ModalEditUsuario
+          key={selectUsuario.id}
+          usuario={selectUsuario}
+          findUsuarios={findUsuarios}
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+        />
+      )}
+      {selectUsuario && selectModal === "eliminar" && (
+        <ModalDeleteUsuario
+          key={selectUsuario.id}
+          usuario={selectUsuario}
+          findUsuarios={findUsuarios}
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+        />
+      )}
     </section>
   );
 };
