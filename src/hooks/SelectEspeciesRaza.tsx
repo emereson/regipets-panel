@@ -14,7 +14,6 @@ const useSelectEspeciesRaza = () => {
     try {
       const url = `${import.meta.env.VITE_URL_API}/especie`;
       const res = await axios.get(url, config);
-      console.log(res);
 
       setEspecies(res.data.especies || []);
     } catch (err) {
@@ -30,7 +29,6 @@ const useSelectEspeciesRaza = () => {
         import.meta.env.VITE_URL_API
       }/raza/especie/${selectEspecie}`;
       const res = await axios.get(url, config);
-      console.log(res);
 
       setRazas(res.data.razas || []);
     } catch (err) {
