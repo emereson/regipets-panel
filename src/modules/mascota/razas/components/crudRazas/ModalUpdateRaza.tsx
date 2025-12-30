@@ -49,9 +49,7 @@ const ModalUpdateRaza = ({
         findRazas();
         toast.success("La raza se edito correctamente");
       })
-      .catch((err) => {
-        console.log(err);
-
+      .catch(() => {
         toast.error("Hubo un error al editar La raza");
       })
       .finally(() => {
@@ -60,7 +58,6 @@ const ModalUpdateRaza = ({
         reset();
       });
   };
-  console.log(selectRaza);
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

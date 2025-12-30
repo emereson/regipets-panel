@@ -21,7 +21,6 @@ const Convenios = () => {
       .then((res) => {
         setConvenios(res.data.convenios);
       })
-      .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   };
 

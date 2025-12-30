@@ -6,6 +6,8 @@ export interface Mascota {
   dni: string;
   imagen: string;
   nombre: string;
+  apellido: string;
+  responsable_2: string;
   sexo: string;
   tamano: string;
   color: string;

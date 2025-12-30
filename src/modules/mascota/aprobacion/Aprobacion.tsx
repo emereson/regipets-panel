@@ -52,7 +52,6 @@ const Aprobacion = () => {
         setMascotas(res.data.mascotas);
         setPages(res.data.totalPages || 1);
       })
-      .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   };
 

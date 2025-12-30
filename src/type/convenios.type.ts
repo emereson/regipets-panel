@@ -12,4 +12,7 @@ export interface Convenio {
   departamento: Departamento;
   provincia: Provincia;
   distrito: Distrito;
+  categoria_convenio: string;
+  beneficio_convenio: string;
+  logo_convenio: string;
 }

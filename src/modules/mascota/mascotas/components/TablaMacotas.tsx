@@ -88,7 +88,7 @@ const TablaMacotas = ({
           <TableColumn className={tableColumnStyle}>DNI</TableColumn>
           <TableColumn className={tableColumnStyle}>IMAGEN</TableColumn>
           <TableColumn className={tableColumnStyle}>
-            NOMBRE DE <br /> MASCOTA
+            NOMBRE DE MASCOTA
           </TableColumn>
           <TableColumn className={tableColumnStyle}>CORREO</TableColumn>
           <TableColumn className={tableColumnStyle}>SEXO</TableColumn>
@@ -120,7 +120,9 @@ const TablaMacotas = ({
                   alt="foto del usuario"
                 />
               </TableCell>
-              <TableCell className={tableCellStyle}>{mascota.nombre}</TableCell>
+              <TableCell className={tableCellStyle}>
+                {mascota.nombre} {mascota.apellido}
+              </TableCell>
               <TableCell className={tableCellStyle}>
                 {mascota.usuario.email}
               </TableCell>

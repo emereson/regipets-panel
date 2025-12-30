@@ -17,8 +17,9 @@ interface Props {
   findMascotas: () => void;
   dataFiltersMascotas: DataFilters;
   setDataFiltersMascotas: (e: DataFilters) => void;
-  selectedMascotaIds: number[];
-  setSelectedMascotaIds: (ids: number[]) => void;
+  selectedMascotaIds?: number[];
+  setSelectedMascotaIds?: (ids: number[]) => void;
+  noEstado?: boolean;
 }
 
 const FiltroAprobacion = ({
@@ -27,6 +28,7 @@ const FiltroAprobacion = ({
   setDataFiltersMascotas,
   selectedMascotaIds,
   setSelectedMascotaIds,
+  noEstado,
 }: Props) => {
   return (
     <section className="w-full flex items-end gap-1 justify-between relative ">
@@ -87,47 +89,51 @@ const FiltroAprobacion = ({
             <p className="text-[12px]">Gobierno</p>
           </SelectItem>
         </Select>
-        <Select
-          className="min-w-[180px] max-w-[180px]"
-          classNames={selectClassNames}
-          labelPlacement="outside"
-          variant="bordered"
-          label="ESTADO DE APROBACIÓN"
-          placeholder="Seleccionar..."
-          radius="sm"
-          size="sm"
-          selectedKeys={[dataFiltersMascotas.estado || "PENDIENTE"]}
-          onChange={(e) =>
-            setDataFiltersMascotas({
-              ...dataFiltersMascotas,
-              estado: e.target.value,
-            })
-          }
-        >
-          <SelectItem key="PENDIENTE" textValue="PENDIENTE">
-            <p className="text-[12px]">PENDIENTE</p>
-          </SelectItem>
-          <SelectItem key="APROBADO" textValue="APROBADO">
-            <p className="text-[12px]">APROBADO</p>
-          </SelectItem>
-          <SelectItem key="DENEGADO" textValue="DENEGADO">
-            <p className="text-[12px]">DENEGADO</p>
-          </SelectItem>
-        </Select>
+        {!noEstado && (
+          <Select
+            className="min-w-[180px] max-w-[180px]"
+            classNames={selectClassNames}
+            labelPlacement="outside"
+            variant="bordered"
+            label="ESTADO DE APROBACIÓN"
+            placeholder="Seleccionar..."
+            radius="sm"
+            size="sm"
+            selectedKeys={[dataFiltersMascotas.estado || "PENDIENTE"]}
+            onChange={(e) =>
+              setDataFiltersMascotas({
+                ...dataFiltersMascotas,
+                estado: e.target.value,
+              })
+            }
+          >
+            <SelectItem key="PENDIENTE" textValue="PENDIENTE">
+              <p className="text-[12px]">PENDIENTE</p>
+            </SelectItem>
+            <SelectItem key="APROBADO" textValue="APROBADO">
+              <p className="text-[12px]">APROBADO</p>
+            </SelectItem>
+            <SelectItem key="DENEGADO" textValue="DENEGADO">
+              <p className="text-[12px]">DENEGADO</p>
+            </SelectItem>
+          </Select>
+        )}
         <Button
           type="submit"
-          className=" bg-orange-500 h-9 min-w-[50px]  flex items-center justify-center cursor-pointer hover:bg-[#2776d8] transition-colors"
+          className=" bg-orange-500 h-8 min-w-[45px]  flex items-center justify-center cursor-pointer hover:bg-[#2776d8] transition-colors"
           onPress={findMascotas}
           radius="sm"
         >
           <RiSearchEyeFill className="text-xl text-white" />
         </Button>
       </div>
-      <UpdateEstadoAprobacion
-        findMascotas={findMascotas}
-        selectedMascotaIds={selectedMascotaIds}
-        setSelectedMascotaIds={setSelectedMascotaIds}
-      />
+      {selectedMascotaIds && setSelectedMascotaIds && (
+        <UpdateEstadoAprobacion
+          findMascotas={findMascotas}
+          selectedMascotaIds={selectedMascotaIds}
+          setSelectedMascotaIds={setSelectedMascotaIds}
+        />
+      )}
     </section>
   );
 };

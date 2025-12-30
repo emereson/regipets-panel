@@ -21,7 +21,7 @@ import type { Mascota } from "../../../../type/mascotas.type";
 
 interface Props {
   findMascotas: () => void;
-  selectedMascotaIds: number[];
+  selectedMascotaIds?: number[];
   setSelectedMascotaIds: (ids: number[]) => void;
 }
 

@@ -16,13 +16,10 @@ const Razas = () => {
   const findMascotas = async () => {
     const url = `${import.meta.env.VITE_URL_API}/especie`;
 
-    axios
-      .get(url, config)
-      .then((res) => {
-        setEspecies(res.data.especies);
-        setSelectEspecie(res.data.especies[0].id.toString());
-      })
-      .catch((err) => console.log(err));
+    axios.get(url, config).then((res) => {
+      setEspecies(res.data.especies);
+      setSelectEspecie(res.data.especies[0].id.toString());
+    });
   };
 
   const findRazas = async () => {
@@ -33,8 +30,6 @@ const Razas = () => {
         import.meta.env.VITE_URL_API
       }/raza/especie/${selectEspecie}`;
       const res = await axios.get(url, config);
-
-      console.log(res);
 
       setRazas(res.data.razas || []);
     } catch (err) {

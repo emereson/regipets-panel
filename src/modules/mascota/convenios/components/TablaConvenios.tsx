@@ -52,14 +52,14 @@ const TablaConvenios = ({ convenios, findConvenios }: Props) => {
         radius="sm"
       >
         <TableHeader>
-          <TableColumn className={tableColumnStyle}>Nro</TableColumn>
+          <TableColumn className={tableColumnStyle}>LOGO</TableColumn>
+          <TableColumn className={tableColumnStyle}>CATEGORIA</TableColumn>
+
           <TableColumn className={tableColumnStyle}>NOMBRE</TableColumn>
           <TableColumn className={tableColumnStyle}>TELÉFONO</TableColumn>
-          <TableColumn className={tableColumnStyle}>DIRECCIÓN</TableColumn>
-          <TableColumn className={tableColumnStyle}>
-            PUNTO AUTORIZADO
-          </TableColumn>
+          <TableColumn className={tableColumnStyle}>BENEFICIO</TableColumn>
           <TableColumn className={tableColumnStyle}>UBICACIÓN</TableColumn>
+          <TableColumn className={tableColumnStyle}>DIRECCIÓN</TableColumn>
           <TableColumn className={tableColumnStyle}>ACCIONES</TableColumn>
         </TableHeader>
 
@@ -67,30 +67,39 @@ const TablaConvenios = ({ convenios, findConvenios }: Props) => {
           emptyContent="No hay convenios registrados"
           loadingContent={<Spinner label="Cargando convenios..." />}
         >
-          {convenios.map((convenio, index) => (
+          {convenios.map((convenio) => (
             <TableRow key={convenio.id}>
-              <TableCell className={tableCellStyle}>{index + 1}</TableCell>
-
+              <TableCell className={tableCellStyle}>
+                {" "}
+                <img
+                  src={
+                    `${import.meta.env.VITE_URL_IMAGE}/${
+                      convenio.logo_convenio
+                    }` || "/logo.webp"
+                  }
+                  alt="Mascota"
+                  className="w-20 h-20 object-cover rounded-md cursor-pointer m-auto"
+                />
+              </TableCell>
+              <TableCell className={tableCellStyle}>
+                {convenio.categoria_convenio}
+              </TableCell>
               <TableCell className={tableCellStyle}>
                 {convenio.nombre_convenio}
               </TableCell>
-
               <TableCell className={tableCellStyle}>
                 {convenio.telefono}
               </TableCell>
-
+              <TableCell className={tableCellStyle}>
+                {convenio.beneficio_convenio}
+              </TableCell>
+              <TableCell className={tableCellStyle}>
+                {convenio.departamento?.departamento ?? "-"} -{" "}
+                {convenio.provincia?.provincia ?? "-"} -{" "}
+                {convenio.distrito?.distrito ?? "-"}
+              </TableCell>
               <TableCell className={tableCellStyle}>
                 {convenio.direccion}
-              </TableCell>
-
-              <TableCell className={tableCellStyle}>
-                {convenio.punto_autorizado ? "Sí" : "No"}
-              </TableCell>
-
-              <TableCell className={tableCellStyle}>
-                {convenio.departamento.departamento ?? "-"} -{" "}
-                {convenio.provincia.provincia ?? "-"} -{" "}
-                {convenio.distrito.distrito ?? "-"}
               </TableCell>
 
               <TableCell className={tableCellStyle}>

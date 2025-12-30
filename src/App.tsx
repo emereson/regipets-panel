@@ -11,6 +11,8 @@ import Ordenes from "./modules/mascota/ordenes/Ordenes";
 import Usuarios from "./modules/usuarios/usuarios/Usuarios";
 import Aprobacion from "./modules/mascota/aprobacion/Aprobacion";
 import Convenios from "./modules/mascota/convenios/Convenios";
+import Referidos from "./modules/usuarios/referidos/Referidos";
+import DniCertificados from "./modules/mascota/dniCertificados/DniCertificados";
 
 const useUserData = () => {
   const userDataJSON = localStorage.getItem("userData");
@@ -37,14 +39,21 @@ function App() {
             <Route path="/mascotas/busqueda" element={<Busqueda />} />
             <Route path="/mascotas/raza" element={<Razas />} />
             <Route path="/mascotas/convenios" element={<Convenios />} />
-
             <Route
               path="/mascotas/aprobacion-registros"
               element={<Aprobacion />}
             />
+            <Route
+              path="/mascotas/certificados-dni"
+              element={<DniCertificados />}
+            />
 
             {/* usuarios */}
             <Route path="/usuarios" element={<Usuarios />} />
+            <Route
+              path="/usuarios/referidos"
+              element={<Referidos rol={userData?.rol} idUser={userData?.id} />}
+            />
           </Route>
         </Routes>
       </div>

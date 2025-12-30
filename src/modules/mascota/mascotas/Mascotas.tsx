@@ -44,8 +44,7 @@ const Mascotas = () => {
 
     await axios
       .get(urlWithParams, config)
-      .then((res) => setMascotas(res.data.mascotas))
-      .catch((err) => console.log(err));
+      .then((res) => setMascotas(res.data.mascotas));
   };
 
   const findUsuarios = async () => {
@@ -63,7 +62,6 @@ const Mascotas = () => {
       .then((res) => {
         setUsuarios(res.data.users);
       })
-      .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   };
 

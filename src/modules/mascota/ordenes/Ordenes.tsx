@@ -12,17 +12,12 @@ const Ordenes = () => {
   const findMascotas = async () => {
     const url = `${import.meta.env.VITE_URL_API}/pedido`;
 
-    axios
-      .get(url, config)
-      .then((res) => setPedidos(res.data.pedidos))
-      .catch((err) => console.log(err));
+    axios.get(url, config).then((res) => setPedidos(res.data.pedidos));
   };
 
   useEffect(() => {
     findMascotas();
   }, []);
-
-  console.log(pedidos);
 
   return (
     <main className="w-full h-screen p-4  overflow-hidden">

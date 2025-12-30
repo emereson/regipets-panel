@@ -27,7 +27,7 @@ const SkeletonTable = ({ columns, rows = 5 }: SkeletonTableProps) => {
     >
       <TableHeader>
         {columns.map((col, i) => (
-          <TableColumn key={i} className="text-sm font-semibold">
+          <TableColumn key={i} className="text-[10px] font-semibold">
             {col}
           </TableColumn>
         ))}

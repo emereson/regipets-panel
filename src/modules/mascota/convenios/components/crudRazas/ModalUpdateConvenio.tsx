@@ -1,6 +1,5 @@
 import {
   Button,
-  Checkbox,
   Input,
   Modal,
   ModalBody,
@@ -10,7 +9,7 @@ import {
   SelectItem,
 } from "@heroui/react";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import config from "../../../../../utils/auth/getToken";
@@ -23,6 +22,8 @@ import type { Convenio } from "../../../../../type/convenios.type";
 import { departamentos } from "../../../../../data/ubigeos/departamentos";
 import { provincias } from "../../../../../data/ubigeos/provincias";
 import { distritos } from "../../../../../data/ubigeos/distritos";
+import { useImagePreview } from "../../../../../hooks/useImagePreview";
+import { RiImageAddFill } from "react-icons/ri";
 
 interface Props {
   isOpen: boolean;
@@ -37,48 +38,53 @@ const ModalUpdateConvenio = ({
   findConvenios,
   selectConvenio,
 }: Props) => {
-  const { register, handleSubmit, reset, setValue } = useForm<Convenio>();
+  const { register, handleSubmit, reset } = useForm<Convenio>({
+    defaultValues: selectConvenio,
+  });
   const [loading, setLoading] = useState(false);
+  const { file, preview, handleImageChange, clearImage } = useImagePreview();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const openFileDialog = () => {
+    inputRef.current?.click();
+  };
 
   const [selectDepartamento, setSelectDepartamento] = useState<string>("");
   const [selectProvincia, setSelectProvincia] = useState<string>("");
   const [selectDistrito, setSelectDistrito] = useState<string>("");
 
-  const [isSelected, setIsSelected] = useState<boolean>(false);
-
   /* ▶ Precargar datos */
   useEffect(() => {
     if (!selectConvenio) return;
 
-    setValue("nombre_convenio", selectConvenio.nombre_convenio);
-    setValue("direccion", selectConvenio.direccion);
-    setValue("telefono", selectConvenio.telefono);
-
-    setIsSelected(selectConvenio.punto_autorizado);
-
     setSelectDepartamento(selectConvenio.departamento_id?.toString() || "");
     setSelectProvincia(selectConvenio.provincia_id?.toString() || "");
     setSelectDistrito(selectConvenio.distrito_id?.toString() || "");
-  }, [selectConvenio, setValue]);
+  }, [selectConvenio]);
 
   const submit = async (data: Convenio) => {
     setLoading(true);
+    const formData = new FormData();
 
-    const newData = {
-      nombre_convenio: data.nombre_convenio,
-      direccion: data.direccion,
-      telefono: data.telefono,
-      punto_autorizado: isSelected,
-      departamento_id: selectDepartamento,
-      provincia_id: selectProvincia,
-      distrito_id: selectDistrito,
-    };
+    formData.append("nombre_convenio", data.nombre_convenio);
+    formData.append("direccion", data.direccion);
+    formData.append("telefono", data.telefono);
+    formData.append("departamento_id", selectDepartamento);
+    formData.append("provincia_id", selectProvincia);
+    formData.append("distrito_id", selectDistrito);
+    formData.append("categoria_convenio", data.categoria_convenio);
+    formData.append("beneficio_convenio", data.beneficio_convenio);
+
+    // Si hay imagen, la agregamos
+    if (file) {
+      formData.append("imagen", file);
+    }
 
     try {
       const url = `${import.meta.env.VITE_URL_API}/convenios/${
         selectConvenio.id
       }`;
-      await axios.patch(url, newData, config);
+      await axios.patch(url, formData, config);
 
       toast.success("Convenio actualizado correctamente");
       findConvenios();
@@ -107,6 +113,20 @@ const ModalUpdateConvenio = ({
   const handleDistritos = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectDistrito(e.target.value);
   };
+
+  const CATEGORIAS = [
+    "Celebraciones",
+    "Comida",
+    "Educación",
+    "Entretenimiento",
+    "Hoteles para mascotas",
+    "Ropa y artículos",
+    "Salud",
+    "Seguros",
+    "Tecnología",
+    "Transporte",
+    "Viajes",
+  ];
 
   return (
     <>
@@ -160,18 +180,6 @@ const ModalUpdateConvenio = ({
                   radius="sm"
                   size="sm"
                 />
-
-                <div className="flex flex-col">
-                  <p className="text-nowrap text-[11px]">
-                    Punto <br /> Autorizado
-                  </p>
-                  <Checkbox
-                    size="lg"
-                    color="danger"
-                    isSelected={isSelected}
-                    onValueChange={setIsSelected}
-                  />
-                </div>
               </div>
 
               <div className="w-full flex gap-1">
@@ -231,6 +239,84 @@ const ModalUpdateConvenio = ({
                       </SelectItem>
                     ))}
                 </Select>
+              </div>
+              <div className="w-full flex items-start gap-1">
+                <Select
+                  isRequired
+                  classNames={selectClassNames}
+                  labelPlacement="outside"
+                  variant="bordered"
+                  label="Categoria"
+                  placeholder="Seleccionar..."
+                  {...register("categoria_convenio")}
+                  radius="sm"
+                  size="sm"
+                >
+                  {CATEGORIAS.map((categoria) => (
+                    <SelectItem key={categoria} textValue={categoria}>
+                      <p className="text-[12px]">{categoria}</p>
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Input
+                  classNames={inputClassNames}
+                  isRequired
+                  label="Beneficio"
+                  labelPlacement="outside"
+                  placeholder="..."
+                  variant="bordered"
+                  {...register("beneficio_convenio")}
+                  color="primary"
+                  radius="sm"
+                  size="sm"
+                />
+                <div className="w-52 flex flex-col gap-1">
+                  <p className="text-xs">Logo:</p>
+                  {preview ? (
+                    <img
+                      src={preview}
+                      alt="Preview"
+                      className="w-32 h-32 object-cover rounded-md cursor-pointer m-auto"
+                      onClick={openFileDialog}
+                    />
+                  ) : selectConvenio.logo_convenio ? (
+                    <img
+                      src={
+                        `${import.meta.env.VITE_URL_IMAGE}/${
+                          selectConvenio.logo_convenio
+                        }` || "/logo.webp"
+                      }
+                      alt="Mascota"
+                      className="w-32 h-32 object-cover rounded-md cursor-pointer m-auto"
+                      onClick={openFileDialog}
+                    />
+                  ) : (
+                    <RiImageAddFill
+                      className="text-5xl cursor-pointer m-auto"
+                      onClick={openFileDialog}
+                    />
+                  )}
+
+                  <input
+                    type="file"
+                    ref={inputRef}
+                    onChange={handleImageChange}
+                    accept="image/*"
+                    className="hidden"
+                  />
+
+                  {(preview || selectConvenio.logo_convenio) && (
+                    <Button
+                      className="w-min"
+                      color="danger"
+                      type="button"
+                      onPress={clearImage}
+                      size="sm"
+                    >
+                      Quitar imagen
+                    </Button>
+                  )}
+                </div>
               </div>
 
               <div className="flex justify-end gap-3 pt-2">

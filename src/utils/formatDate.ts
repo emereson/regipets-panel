@@ -1,18 +1,11 @@
-export const formatDate = (dateInput: string) => {
-  if (dateInput) {
-    const delimiter = dateInput.includes("-") ? "-" : "/";
-    const [year, month, day] = dateInput.split(delimiter).map(Number);
+export const formatDate = (date: Date | string): string => {
+  const d = typeof date === "string" ? new Date(date) : date;
 
-    const date = new Date(year, month - 1, day);
+  if (isNaN(d.getTime())) return "";
 
-    if (isNaN(date.getTime())) {
-      return "Fecha inválida";
-    }
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
 
-    const formattedDay = String(date.getDate()).padStart(2, "0");
-    const formattedMonth = String(date.getMonth() + 1).padStart(2, "0");
-    const formattedYear = date.getFullYear();
-
-    return `${formattedDay}/${formattedMonth}/${formattedYear}`;
-  }
+  return `${day}/${month}/${year}`;
 };

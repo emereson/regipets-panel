@@ -167,10 +167,8 @@ const ModalEditMascota = ({
     onOpenChange(false);
   };
 
-  console.log(userId);
-
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
       {loading && <Loading />}
       <ModalContent>
         <ModalHeader className="pb-0">Editar Mascota</ModalHeader>
@@ -249,17 +247,44 @@ const ModalEditMascota = ({
               </>
             </Autocomplete>
 
+            <Input
+              isRequired
+              classNames={inputClassNames}
+              label="Responsable 2"
+              labelPlacement="outside"
+              placeholder="..."
+              variant="bordered"
+              {...register("responsable_2")}
+              color="primary"
+              radius="sm"
+              size="sm"
+            />
+
             <div className="w-full flex gap-4">
               <div className="w-full flex flex-col gap-2">
                 <div className="flex gap-1">
                   <Input
                     isRequired
                     classNames={inputClassNames}
-                    label="Nombre"
+                    label="Nombre Mascota"
                     labelPlacement="outside"
                     placeholder="..."
                     variant="bordered"
                     {...register("nombre")}
+                    color="primary"
+                    radius="sm"
+                    size="sm"
+                  />
+                </div>
+                <div className="flex  gap-1">
+                  <Input
+                    isRequired
+                    classNames={inputClassNames}
+                    label="Apellidos Mascota"
+                    labelPlacement="outside"
+                    placeholder="..."
+                    variant="bordered"
+                    {...register("apellido")}
                     color="primary"
                     radius="sm"
                     size="sm"
@@ -275,7 +300,6 @@ const ModalEditMascota = ({
                     placeholder="Seleccione sexo"
                     size="sm"
                     {...register("sexo")}
-                    defaultSelectedKeys={[mascota.sexo || ""]}
                   >
                     <SelectItem key="Macho" textValue="Macho">
                       <p className="text-[11px]">Macho</p>
@@ -288,7 +312,6 @@ const ModalEditMascota = ({
                     </SelectItem>
                   </Select>
                 </div>
-
                 <div className="flex gap-1">
                   <Input
                     classNames={inputClassNames}

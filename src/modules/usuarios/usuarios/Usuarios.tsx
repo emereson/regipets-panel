@@ -40,7 +40,6 @@ const Usuarios = () => {
         setUsusarios(res.data.users);
         setPages(res.data.totalPages || 1);
       })
-      .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   };
 

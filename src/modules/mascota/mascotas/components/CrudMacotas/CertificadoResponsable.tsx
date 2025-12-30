@@ -222,7 +222,7 @@ y departamento de ${mascota.departamento.departamento}.`;
         {() => (
           <>
             <ModalHeader className="text-[#1c61b6]">
-              CERTIFICADO DE REGISTRO
+              CERTIFICADO RESPONSABLE
             </ModalHeader>
 
             <ModalBody className="flex items-center justify-center">
