@@ -68,6 +68,7 @@ const ModalUpdateConvenio = ({
 
     formData.append("nombre_convenio", data.nombre_convenio);
     formData.append("direccion", data.direccion);
+    formData.append("link_direccion", data.link_direccion);
     formData.append("telefono", data.telefono);
     formData.append("departamento_id", selectDepartamento);
     formData.append("provincia_id", selectProvincia);
@@ -168,20 +169,29 @@ const ModalUpdateConvenio = ({
                 />
               </div>
 
-              <div className="flex gap-4 items-end">
-                <Input
-                  classNames={inputClassNames}
-                  isRequired
-                  label="Dirección"
-                  labelPlacement="outside"
-                  variant="bordered"
-                  {...register("direccion")}
-                  color="primary"
-                  radius="sm"
-                  size="sm"
-                />
-              </div>
-
+              <Input
+                classNames={inputClassNames}
+                isRequired
+                label="Dirección"
+                labelPlacement="outside"
+                variant="bordered"
+                {...register("direccion")}
+                color="primary"
+                radius="sm"
+                size="sm"
+              />
+              <Input
+                classNames={inputClassNames}
+                isRequired
+                label="Link de la Dirección"
+                labelPlacement="outside"
+                placeholder="..."
+                variant="bordered"
+                {...register("link_direccion")}
+                color="primary"
+                radius="sm"
+                size="sm"
+              />
               <div className="w-full flex gap-1">
                 <Select
                   isRequired

@@ -15,4 +15,5 @@ export interface Convenio {
   categoria_convenio: string;
   beneficio_convenio: string;
   logo_convenio: string;
+  link_direccion: string;
 }

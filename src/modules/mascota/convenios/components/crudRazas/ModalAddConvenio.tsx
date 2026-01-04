@@ -53,14 +53,10 @@ const ModalAddConvenio = ({ findConvenios }: Props) => {
     Object.entries(data).forEach(([key, value]) => {
       if (value) formData.append(key, value as string);
     });
-    // formData.append("nombre_convenio", data.nombre_convenio);
-    // formData.append("direccion", data.direccion);
-    // formData.append("telefono", data.telefono);
+
     formData.append("departamento_id", selectDepartamento);
     formData.append("provincia_id", selectProvincia);
     formData.append("distrito_id", selectDistrito);
-    // formData.append("categoria_convenio", data.categoria_convenio);
-    // formData.append("beneficio_convenio", data.beneficio_convenio);
 
     // Si hay imagen, la agregamos
     if (file) {
@@ -162,20 +158,30 @@ const ModalAddConvenio = ({ findConvenios }: Props) => {
                   size="sm"
                 />
               </div>
-              <div className="flex gap-4 items-end">
-                <Input
-                  classNames={inputClassNames}
-                  isRequired
-                  label="Dirección"
-                  labelPlacement="outside"
-                  placeholder="..."
-                  variant="bordered"
-                  {...register("direccion")}
-                  color="primary"
-                  radius="sm"
-                  size="sm"
-                />
-              </div>
+              <Input
+                classNames={inputClassNames}
+                isRequired
+                label="Dirección"
+                labelPlacement="outside"
+                placeholder="..."
+                variant="bordered"
+                {...register("direccion")}
+                color="primary"
+                radius="sm"
+                size="sm"
+              />
+              <Input
+                classNames={inputClassNames}
+                isRequired
+                label="Link de la Dirección"
+                labelPlacement="outside"
+                placeholder="..."
+                variant="bordered"
+                {...register("link_direccion")}
+                color="primary"
+                radius="sm"
+                size="sm"
+              />
 
               <div className="w-full flex gap-1">
                 <Select

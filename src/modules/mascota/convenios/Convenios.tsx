@@ -7,14 +7,18 @@ import type { Convenio } from "../../../type/convenios.type";
 import ModalAddConvenio from "./components/crudRazas/ModalAddConvenio";
 import TablaConvenios from "./components/TablaConvenios";
 import SkeletonTable from "../../../hooks/SkeletonTable";
+import FiltroConvenio from "./components/FiltroMacotas";
 
 const Convenios = () => {
   const [convenios, setConvenios] = useState<Convenio[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectCategoria, setSelectCategoria] = useState("Todos");
 
   const findConvenios = async () => {
     setLoading(true);
-    const url = `${import.meta.env.VITE_URL_API}/convenios`;
+    const url = `${
+      import.meta.env.VITE_URL_API
+    }/convenios?categoria=${selectCategoria}`;
 
     axios
       .get(url, config)
@@ -38,6 +42,11 @@ const Convenios = () => {
           </div>
           <ModalAddConvenio findConvenios={findConvenios} />
         </article>
+        <FiltroConvenio
+          selectCategoria={selectCategoria}
+          setSelectCategoria={setSelectCategoria}
+          findConvenios={findConvenios}
+        />
         <Divider className="bg-orange-100 h-0.5" />
         {loading ? (
           <SkeletonTable

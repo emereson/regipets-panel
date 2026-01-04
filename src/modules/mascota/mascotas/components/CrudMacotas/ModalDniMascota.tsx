@@ -225,13 +225,13 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                             <li className="w-full flex justify-between py-[2px]">
                               <p className="w-1/2">Fecha de Emisión</p>
                               <p className="w-2/5 text-center border-b-2 border-[#1c61b6] text-black">
-                                {mascota.fecha_inscripcion}
+                                {formatDate(mascota.fecha_inscripcion)}
                               </p>
                             </li>
                             <li className="w-full flex justify-between py-[2px]">
                               <p className="w-1/2">Fecha de Inscripción</p>
                               <p className="w-2/5 text-center border-b-2 border-[#1c61b6] text-black">
-                                {mascota.fecha_inscripcion}
+                                {formatDate(mascota.fecha_inscripcion)}
                               </p>
                             </li>
                           </ul>
@@ -280,13 +280,13 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                           "invert(0.08) sepia(0.22) saturate(5) hue-rotate(175deg) brightness(0.9) contrast(0.85)",
                       }}
                     />
-                    <div className="absolute top-4 min-w-[350px] text-center min-h-[30px] bg-[#1c61b6] rounded-xs z-10 rounded-t-md">
+                    <div className="absolute top-4 min-w-[350px] font-[segoeui] text-center min-h-[30px] bg-[#616160] rounded-xs z-10 rounded-t-md">
                       <p className="text-white">
                         {mascota.cod_microchip || "-"}
                       </p>
                     </div>
                     <section className="w-full pt-8 h-full flex flex-col items-center p-5 text-neutral-600 font-[SegoeUiBlack]">
-                      <div className="w-full h-full relative mt-3 border-2 border-[#1c61b6] rounded-md overflow-hidden">
+                      <div className="w-full h-full relative mt-3 border-2 border-[#616160] rounded-md overflow-hidden">
                         <ul className="flex text-center px-2 py-2">
                           <li className="w-1/3 text-xs text-black uppercase">
                             Departamento
@@ -298,8 +298,8 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                             Distrito
                           </li>
                         </ul>
-                        <Divider className="bg-[#1c61b6] h-[2px]" />
-                        <ul className="flex text-center px-2 py-2">
+                        <Divider className="bg-[#616160] h-[2px]" />
+                        <ul className="flex font-[segoeui]  text-center px-2 py-2">
                           <li className="w-1/3 text-xs text-[#616160]">
                             {mascota?.departamento?.departamento || "-"}
                           </li>
@@ -310,18 +310,18 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                             {mascota?.distrito?.distrito || "-"}
                           </li>
                         </ul>
-                        <Divider className="bg-[#1c61b6] h-[2px]" />
+                        <Divider className="bg-[#616160] h-[2px]" />
                         <ul className="flex flex-col gap-1 text-xs py-2 px-3">
                           <li className="w-full flex items-center gap-2">
                             <p className="font-semibold text-black">
                               DIRECCIÓN
                             </p>
-                            <p className="text-[11px] text-[#616160]">
+                            <p className="font-[segoeui]  text-[11px] text-[#616160]">
                               {mascota.direccion || "-"}
                             </p>
                           </li>
                         </ul>
-                        <Divider className="bg-[#1c61b6] h-[2px]" />
+                        <Divider className="bg-[#616160] h-[2px]" />
                         <ul className="flex flex-col gap-1 text-xs py-4 px-3">
                           <li className="w-full py-[2px] flex items-center gap-2">
                             <p className="w-[150px] text-black">RESPONSABLE</p>
@@ -342,7 +342,7 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                             <p className="w-[150px] text-black">
                               RESPONSABLE 2
                             </p>
-                            <p className="w-full text-center text-[#616160]">
+                            <p className="font-[segoeui]  w-full text-center text-[#616160]">
                               {mascota.responsable_2 || "-"}
                               <div className="w-full flex gap-2 py-1">
                                 {Array.from({ length: 20 }).map((_, i) => (
@@ -355,19 +355,14 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                             </p>
                           </li>
                         </ul>
-                        <Divider className="bg-[#1c61b6] h-[2px]" />
-                        <p className="text-xs py-2 text-center">
+                        <Divider className="bg-[#616160] h-[2px]" />
+                        <p className="font-[segoeui]  text-xs py-2 text-center">
                           {`<<<<<<<<<<<<<<<<<<< ${mascota.dni} >>>>>>>>>>>>>>>>>>>>`}
                           <br />
                           {`<<<<<< ${mascota.usuario.nombre} ${mascota.usuario.apellido} >>>>>>>`}
                           <br />
                           {`<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS>>>>>>>>`}
                         </p>
-                        <img
-                          className="absolute w-[80px] -bottom-6 -right-5 -rotate-30"
-                          src="/logo2.png"
-                          alt=""
-                        />
                       </div>
                     </section>
                   </div>

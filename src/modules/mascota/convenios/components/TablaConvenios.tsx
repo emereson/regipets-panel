@@ -56,7 +56,6 @@ const TablaConvenios = ({ convenios, findConvenios }: Props) => {
           <TableColumn className={tableColumnStyle}>CATEGORIA</TableColumn>
 
           <TableColumn className={tableColumnStyle}>NOMBRE</TableColumn>
-          <TableColumn className={tableColumnStyle}>TELÉFONO</TableColumn>
           <TableColumn className={tableColumnStyle}>BENEFICIO</TableColumn>
           <TableColumn className={tableColumnStyle}>UBICACIÓN</TableColumn>
           <TableColumn className={tableColumnStyle}>DIRECCIÓN</TableColumn>
@@ -87,9 +86,7 @@ const TablaConvenios = ({ convenios, findConvenios }: Props) => {
               <TableCell className={tableCellStyle}>
                 {convenio.nombre_convenio}
               </TableCell>
-              <TableCell className={tableCellStyle}>
-                {convenio.telefono}
-              </TableCell>
+
               <TableCell className={tableCellStyle}>
                 {convenio.beneficio_convenio}
               </TableCell>
@@ -99,7 +96,18 @@ const TablaConvenios = ({ convenios, findConvenios }: Props) => {
                 {convenio.distrito?.distrito ?? "-"}
               </TableCell>
               <TableCell className={tableCellStyle}>
-                {convenio.direccion}
+                {convenio.link_direccion ? (
+                  <a
+                    className="text-blue-500"
+                    href={convenio.link_direccion}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {convenio.direccion}
+                  </a>
+                ) : (
+                  <p>{convenio.direccion}</p>
+                )}
               </TableCell>
 
               <TableCell className={tableCellStyle}>

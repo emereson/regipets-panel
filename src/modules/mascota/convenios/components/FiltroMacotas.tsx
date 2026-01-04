@@ -1,40 +1,67 @@
-import { Input } from "@heroui/react";
-import { inputClassNames } from "../../../../utils/classNames";
+import { Button, Select, SelectItem } from "@heroui/react";
+import { selectClassNames } from "../../../../utils/classNames";
 import { RiSearchEyeFill } from "react-icons/ri";
 
 interface Props {
-  setDniNombre: (e: string) => void;
-  dniNombre: string;
-  findMascotas: () => void;
+  setSelectCategoria: (e: string) => void;
+  selectCategoria: string;
+  findConvenios: () => void;
 }
 
-const FiltroMacotas = ({ setDniNombre, dniNombre, findMascotas }: Props) => {
+const CATEGORIAS = [
+  "Todos",
+  "Celebraciones",
+  "Comida",
+  "Educación",
+  "Entretenimiento",
+  "Hoteles para mascotas",
+  "Ropa y artículos",
+  "Salud",
+  "Seguros",
+  "Tecnología",
+  "Transporte",
+  "Viajes",
+];
+
+const FiltroConvenio = ({
+  setSelectCategoria,
+  selectCategoria,
+  findConvenios,
+}: Props) => {
   return (
-    <section className="w-fit flex items-end gap-2 relative ">
-      <Input
-        className="w-xs"
-        classNames={inputClassNames}
-        label="DNI/NOMBRE APELLIDOS"
+    <form
+      className="w-sm flex items-end gap-2 relative "
+      onSubmit={(e) => {
+        e.preventDefault();
+        findConvenios();
+      }}
+    >
+      <Select
+        isRequired
+        classNames={selectClassNames}
         labelPlacement="outside"
-        name="DNI/NOMBRE APELLIDOS"
-        type="string"
-        placeholder="..."
-        onChange={(e) => setDniNombre(e.target.value)}
-        value={dniNombre}
-        radius="sm"
-        size="md"
-        id="correoUsuario"
         variant="bordered"
-      />
-      <button
+        label="Categoria"
+        placeholder="Seleccionar..."
+        radius="sm"
+        size="sm"
+        defaultSelectedKeys={[selectCategoria]}
+        onChange={(e) => setSelectCategoria(e.target.value)}
+      >
+        {CATEGORIAS.map((categoria) => (
+          <SelectItem key={categoria} textValue={categoria}>
+            <p className="text-[12px]">{categoria}</p>
+          </SelectItem>
+        ))}
+      </Select>
+      <Button
         type="submit"
-        className="absolute bg-orange-500 h-11 min-w-[56px] -right-12 rounded-r-xl -bottom-0.5 z-[2] flex items-center justify-center cursor-pointer hover:bg-orange-400 transition-colors"
-        onClick={findMascotas}
+        className=" bg-orange-500 min-w-[56px]  rounded-r-xl -bottom-0.5 z-[2] flex items-center justify-center cursor-pointer hover:bg-orange-400 transition-colors"
       >
         <RiSearchEyeFill className="text-2xl text-white" />
-      </button>
-    </section>
+      </Button>
+    </form>
   );
 };
 
-export default FiltroMacotas;
+export default FiltroConvenio;
