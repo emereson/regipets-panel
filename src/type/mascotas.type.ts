@@ -8,6 +8,8 @@ export interface Mascota {
   nombre: string;
   apellido: string;
   responsable_2: string;
+  dni_responsable_2: string;
+  telefono_responsable_2: string;
   sexo: string;
   tamano: string;
   color: string;

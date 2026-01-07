@@ -7,13 +7,9 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/react";
-import { useState, useRef, useEffect } from "react";
-import Loading from "../../../../../hooks/Loading";
+import { useState, useEffect } from "react";
 import type { Mascota } from "../../../../../type/mascotas.type";
 import { formatDate } from "../../../../../utils/formatDate";
-import jsPDF from "jspdf";
-import * as htmlToImage from "html-to-image";
-import { saveAs } from "file-saver";
 
 interface Props {
   mascota: Mascota;
@@ -22,77 +18,77 @@ interface Props {
 }
 
 const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
   const [pdfPreview, setPdfPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const dniRef = useRef<HTMLDivElement>(null);
-  const dniRef2 = useRef<HTMLDivElement>(null);
+  // const dniRef = useRef<HTMLDivElement>(null);
+  // const dniRef2 = useRef<HTMLDivElement>(null);
 
-  // Generar PDF y mostrar preview
-  const generarPDF = async () => {
-    setLoading(true);
-    setError(null);
+  // // Generar PDF y mostrar preview
+  // // const generarPDF = async () => {
+  // //   setLoading(true);
+  // //   setError(null);
 
-    // Esperar a que se carguen las imágenes
-    await new Promise((resolve) => setTimeout(resolve, 500));
+  // //   // Esperar a que se carguen las imágenes
+  // //   await new Promise((resolve) => setTimeout(resolve, 500));
 
-    try {
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "px",
-        format: [530, 324],
-      });
+  // //   try {
+  // //     const pdf = new jsPDF({
+  // //       orientation: "landscape",
+  // //       unit: "px",
+  // //       format: [530, 324],
+  // //     });
 
-      // FRONT
-      if (dniRef.current) {
-        try {
-          const imgFront = await htmlToImage.toJpeg(dniRef.current, {
-            cacheBust: true,
-            quality: 0.95,
-            pixelRatio: 2,
-            backgroundColor: "#ffffff",
-          });
-          pdf.addImage(imgFront, "JPEG", 0, 0, 530, 324);
-        } catch (frontErr) {
-          console.warn("Error en FRONT:", frontErr);
-        }
-      }
+  // //     // FRONT
+  // //     if (dniRef.current) {
+  // //       try {
+  // //         const imgFront = await htmlToImage.toJpeg(dniRef.current, {
+  // //           cacheBust: true,
+  // //           quality: 0.95,
+  // //           pixelRatio: 2,
+  // //           backgroundColor: "#ffffff",
+  // //         });
+  // //         pdf.addImage(imgFront, "JPEG", 0, 0, 530, 324);
+  // //       } catch (frontErr) {
+  // //         console.warn("Error en FRONT:", frontErr);
+  // //       }
+  // //     }
 
-      // BACK
-      if (dniRef2.current) {
-        try {
-          const imgBack = await htmlToImage.toJpeg(dniRef2.current, {
-            cacheBust: true,
-            quality: 0.95,
-            pixelRatio: 2,
-            backgroundColor: "#ffffff",
-          });
-          pdf.addPage([530, 324], "landscape");
-          pdf.addImage(imgBack, "JPEG", 0, 0, 530, 324);
-        } catch (backErr) {
-          console.warn("Error en BACK:", backErr);
-        }
-      }
+  // //     // BACK
+  // //     if (dniRef2.current) {
+  // //       try {
+  // //         const imgBack = await htmlToImage.toJpeg(dniRef2.current, {
+  // //           cacheBust: true,
+  // //           quality: 0.95,
+  // //           pixelRatio: 2,
+  // //           backgroundColor: "#ffffff",
+  // //         });
+  // //         pdf.addPage([530, 324], "landscape");
+  // //         pdf.addImage(imgBack, "JPEG", 0, 0, 530, 324);
+  // //       } catch (backErr) {
+  // //         console.warn("Error en BACK:", backErr);
+  // //       }
+  // //     }
 
-      // Convertir a Blob y crear URL
-      const pdfBlob = pdf.output("blob");
-      const url = URL.createObjectURL(pdfBlob);
-      setPdfPreview(url);
-    } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : "Error desconocido";
-      console.error("Error al generar PDF:", errorMsg);
-      setError(errorMsg);
-    }
-    setLoading(false);
-  };
+  // //     // Convertir a Blob y crear URL
+  // //     const pdfBlob = pdf.output("blob");
+  // //     const url = URL.createObjectURL(pdfBlob);
+  // //     setPdfPreview(url);
+  // //   } catch (err) {
+  // //     const errorMsg = err instanceof Error ? err.message : "Error desconocido";
+  // //     console.error("Error al generar PDF:", errorMsg);
+  // //     setError(errorMsg);
+  // //   }
+  // //   setLoading(false);
+  // // };
 
-  // Descargar PDF
-  const descargarPDF = async () => {
-    if (pdfPreview) {
-      saveAs(pdfPreview, `dni-mascota-${mascota.nombre}.pdf`);
-    }
-  };
+  // // Descargar PDF
+  // const descargarPDF = async () => {
+  //   if (pdfPreview) {
+  //     saveAs(pdfPreview, `dni-mascota-${mascota.nombre}.pdf`);
+  //   }
+  // };
 
   // Limpiar URL al cerrar
   useEffect(() => {
@@ -104,15 +100,15 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
   }, [isOpen, pdfPreview]);
 
   // Generar automáticamente al abrir
-  useEffect(() => {
-    if (isOpen && mascota) {
-      generarPDF();
-    }
-  }, [isOpen, mascota]);
+  // useEffect(() => {
+  //   if (isOpen && mascota) {
+  //     generarPDF();
+  //   }
+  // }, [isOpen, mascota]);
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">
-      {loading && <Loading />}
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="xl">
+      {/* {loading && <Loading />} */}
       <ModalContent className="bg-[#e6ebee]">
         {() => (
           <>
@@ -125,32 +121,18 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                   <b>Error:</b> {error}
                 </div>
               )}
-              {pdfPreview ? (
-                <iframe
-                  src={pdfPreview}
-                  title="Vista previa DNI"
-                  className="w-full h-[520px] rounded-lg border"
-                />
-              ) : (
-                <div className="text-gray-500 text-sm">
-                  Haz clic en <b>Previsualizar</b> para generar el DNI
-                </div>
-              )}
 
               {/* Contenedores ocultos para generar imágenes */}
               <div
-                style={{
-                  position: "fixed",
-                  top: "-9999px",
-                  left: "-9999px",
-                  width: "auto",
-                  height: "auto",
-                }}
+              // style={{
+              //   position: "fixed",
+              //   top: "-9999px",
+              //   left: "-9999px",
+              //   width: "auto",
+              //   height: "auto",
+              // }}
               >
-                <div
-                  ref={dniRef}
-                  className="w-fit min-h-[331px] max-h-[331px] bg-white"
-                >
+                <div className="w-fit min-h-[331px] max-h-[331px] bg-white">
                   <div className="w-[517px] h-[331px] relative bg-white m-auto flex flex-col items-center justify-start rounded-md overflow-hidden">
                     <img
                       className="absolute top-0 left-0 w-full h-full object-cover opacity-30"
@@ -190,11 +172,11 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                         </p>
                       </section>
                       <section className="w-full flex flex-col items-center pt-2 pl-5 text-neutral-600">
-                        <h2 className="text-2xl uppercase text-[#1c61b6] font-semibold">
+                        <h2 className="text-2xl uppercase text-[#1c61b6] font-[segoeuiBold]">
                           {mascota.nombre}
                         </h2>
-                        <h3 className="w-fit text-center px-8 bg-orange-500 text-white">
-                          {mascota.usuario.nombre} {mascota.usuario.apellido}
+                        <h3 className="w-fit  text-center px-8 bg-orange-500 text-white font-[segoeuiBold]">
+                          {mascota.apellido}
                         </h3>
                         <div className="w-full relative mt-3 border-2 border-[#1c61b6] rounded-md overflow-hidden">
                           <ul className="flex text-center px-2 py-1">
@@ -266,10 +248,7 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                   </div>
                 </div>
 
-                <div
-                  ref={dniRef2}
-                  className="w-fit min-h-[331px] max-h-[331px] bg-white"
-                >
+                <div className="w-fit min-h-[331px] max-h-[331px] bg-white mt-2">
                   <div className="w-[517px] h-[331px] relative bg-white m-auto flex flex-col items-center justify-start rounded-md overflow-hidden">
                     <img
                       className="absolute top-0 left-0 w-full h-full object-cover opacity-30"
@@ -325,41 +304,41 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                         <ul className="flex flex-col gap-1 text-xs py-4 px-3">
                           <li className="w-full py-[2px] flex items-center gap-2">
                             <p className="w-[150px] text-black">RESPONSABLE</p>
-                            <p className="w-full text-center text-[#616160]">
+                            <div className="w-full text-center text-[#616160]">
                               {mascota.usuario.nombre}{" "}
                               {mascota.usuario.apellido}
                               <div className="w-full flex gap-2 py-1">
                                 {Array.from({ length: 20 }).map((_, i) => (
-                                  <div
+                                  <span
                                     key={i}
                                     className="w-full h-[1.5px] bg-[#616160] rounded"
-                                  ></div>
+                                  ></span>
                                 ))}
                               </div>
-                            </p>
+                            </div>
                           </li>
                           <li className="w-full py-[2px] flex items-center gap-2">
                             <p className="w-[150px] text-black">
                               RESPONSABLE 2
                             </p>
-                            <p className="font-[segoeui]  w-full text-center text-[#616160]">
+                            <div className="font-[segoeui]  w-full text-center text-[#616160]">
                               {mascota.responsable_2 || "-"}
                               <div className="w-full flex gap-2 py-1">
                                 {Array.from({ length: 20 }).map((_, i) => (
-                                  <div
+                                  <span
                                     key={i}
                                     className="w-full h-[1.5px] bg-[#616160] rounded"
-                                  ></div>
+                                  ></span>
                                 ))}
                               </div>
-                            </p>
+                            </div>
                           </li>
                         </ul>
                         <Divider className="bg-[#616160] h-[2px]" />
                         <p className="font-[segoeui]  text-xs py-2 text-center">
                           {`<<<<<<<<<<<<<<<<<<< ${mascota.dni} >>>>>>>>>>>>>>>>>>>>`}
                           <br />
-                          {`<<<<<< ${mascota.usuario.nombre} ${mascota.usuario.apellido} >>>>>>>`}
+                          {`<<<<<< ${mascota.nombre} ${mascota.apellido} >>>>>>>`}
                           <br />
                           {`<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS>>>>>>>>`}
                         </p>
@@ -375,24 +354,24 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                 size="sm"
                 onPress={() => onOpenChange(false)}
               >
-                Cancelar
+                Cerrar
               </Button>
-              <Button
+              {/* <Button
                 color="secondary"
                 size="sm"
                 onPress={generarPDF}
                 isLoading={loading}
               >
                 Previsualizar
-              </Button>
-              <Button
+              </Button> */}
+              {/* <Button
                 color="danger"
                 size="sm"
                 isDisabled={!pdfPreview}
                 onPress={descargarPDF}
               >
                 Descargar
-              </Button>
+              </Button> */}
             </ModalFooter>
           </>
         )}

@@ -153,7 +153,7 @@ const ModalAddMascota = ({
         Mascota
       </Button>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="4xl">
         <ModalContent>
           <ModalHeader className="pb-0">Registrar Macota</ModalHeader>
           <Divider className="bg-orange-100 h-0.5" />
@@ -227,18 +227,47 @@ const ModalAddMascota = ({
                   ))}
                 </>
               </Autocomplete>
-              <Input
-                isRequired
-                classNames={inputClassNames}
-                label="Responsable 2"
-                labelPlacement="outside"
-                placeholder="..."
-                variant="bordered"
-                {...register("responsable_2")}
-                color="primary"
-                radius="sm"
-                size="sm"
-              />
+              <div className="w-full flex  gap-2">
+                <Input
+                  isRequired
+                  classNames={inputClassNames}
+                  label="Responsable 2"
+                  labelPlacement="outside"
+                  placeholder="..."
+                  variant="bordered"
+                  {...register("responsable_2")}
+                  color="primary"
+                  radius="sm"
+                  size="sm"
+                />
+                <Input
+                  isRequired
+                  className="min-w-[180px] max-w-[180px]"
+                  classNames={inputClassNames}
+                  label="DNI / CE  responsable 2"
+                  labelPlacement="outside"
+                  placeholder="..."
+                  variant="bordered"
+                  {...register("dni_responsable_2")}
+                  color="primary"
+                  radius="sm"
+                  size="sm"
+                />
+                <Input
+                  isRequired
+                  className="min-w-[180px] max-w-[180px]"
+                  classNames={inputClassNames}
+                  label="Telefono responsable 2"
+                  labelPlacement="outside"
+                  placeholder="..."
+                  variant="bordered"
+                  {...register("telefono_responsable_2")}
+                  color="primary"
+                  radius="sm"
+                  size="sm"
+                />
+              </div>
+
               <div className="w-full flex gap-4">
                 <div className="w-full flex flex-col gap-2">
                   <div className="flex  gap-1">

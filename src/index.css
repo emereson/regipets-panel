@@ -26,6 +26,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "segoeuiBold";
+  src: url("/fonts/segoeuithibd.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   letter-spacing: 0.6px;
   font-family: "ArialRoundedmtBold";

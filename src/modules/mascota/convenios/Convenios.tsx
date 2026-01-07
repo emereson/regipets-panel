@@ -7,21 +7,43 @@ import type { Convenio } from "../../../type/convenios.type";
 import ModalAddConvenio from "./components/crudRazas/ModalAddConvenio";
 import TablaConvenios from "./components/TablaConvenios";
 import SkeletonTable from "../../../hooks/SkeletonTable";
-import FiltroConvenio from "./components/FiltroMacotas";
+import FiltroConvenio from "./components/FiltroConvenio";
+
+interface DataFilters {
+  departamento: string | null;
+  provincia: string | null;
+  distrito: string | null;
+}
 
 const Convenios = () => {
   const [convenios, setConvenios] = useState<Convenio[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectCategoria, setSelectCategoria] = useState("Todos");
+  const [dataFilters, setDataFilters] = useState<DataFilters>({
+    departamento: null,
+    provincia: null,
+    distrito: null,
+  });
 
   const findConvenios = async () => {
     setLoading(true);
-    const url = `${
-      import.meta.env.VITE_URL_API
-    }/convenios?categoria=${selectCategoria}`;
+
+    const params = new URLSearchParams();
+    if (selectCategoria) params.append("categoria", selectCategoria);
+    if (dataFilters.departamento)
+      params.append("departamento", dataFilters.departamento);
+    if (dataFilters.provincia)
+      params.append("provincia", dataFilters.provincia);
+    if (dataFilters.distrito) params.append("distrito", dataFilters.distrito);
+
+    const url = `${import.meta.env.VITE_URL_API}/convenios`;
+
+    const urlWithParams = params.toString()
+      ? `${url}?${params.toString()}`
+      : url;
 
     axios
-      .get(url, config)
+      .get(urlWithParams, config)
       .then((res) => {
         setConvenios(res.data.convenios);
       })
@@ -31,6 +53,10 @@ const Convenios = () => {
   useEffect(() => {
     findConvenios();
   }, []);
+
+  const updateFilters = (updates: Partial<DataFilters>) => {
+    setDataFilters((prev) => ({ ...prev, ...updates }));
+  };
 
   return (
     <main className="w-full h-screen p-4  overflow-hidden ">
@@ -45,6 +71,7 @@ const Convenios = () => {
         <FiltroConvenio
           selectCategoria={selectCategoria}
           setSelectCategoria={setSelectCategoria}
+          setDataFilters={updateFilters}
           findConvenios={findConvenios}
         />
         <Divider className="bg-orange-100 h-0.5" />
