@@ -639,7 +639,7 @@ const ModalEditMascota = ({
                 className="w-70"
                 isRequired
                 classNames={selectClassNames}
-                label="Tipo de mascota"
+                label="Tipo de Registro"
                 labelPlacement="outside"
                 variant="bordered"
                 radius="sm"

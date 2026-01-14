@@ -175,6 +175,24 @@ y departamento de ${mascota.departamento.departamento}.`;
         textY_datos -= lineHeight;
       });
 
+      const fechaBase = new Date(mascota.fecha_inscripcion);
+      fechaBase.setFullYear(fechaBase.getFullYear() + 1);
+
+      // fuerza string
+      const fechaValido = formatDate(fechaBase.toISOString()) ?? "";
+
+      const fontSizeFecha = 10;
+
+      const textXFecha = 183;
+
+      page.drawText(fechaValido, {
+        x: textXFecha,
+        y: 12,
+        size: fontSizeFecha,
+        font: boldFont,
+        color: rgb(57 / 255, 57 / 255, 57 / 255),
+      });
+
       // ===== GENERAR PDF FINAL =====
       const finalPdf = await pdfDoc.save();
 

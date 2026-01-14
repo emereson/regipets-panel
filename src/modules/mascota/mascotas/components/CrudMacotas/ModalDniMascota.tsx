@@ -105,6 +105,17 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
   //     generarPDF();
   //   }
   // }, [isOpen, mascota]);
+  const padMascota = (texto: string, total = 52) => {
+    const cleanText = texto.trim();
+    const faltantes = total - cleanText.length;
+
+    if (faltantes <= 0) return cleanText.slice(0, total);
+
+    const left = Math.floor(faltantes / 2);
+    const right = faltantes - left;
+
+    return `${"<".repeat(left)}${cleanText}${">".repeat(right)}`;
+  };
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="xl">
@@ -336,11 +347,11 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                         </ul>
                         <Divider className="bg-[#616160] h-[2px]" />
                         <p className="font-[segoeui]  text-xs py-2 text-center">
-                          {`<<<<<<<<<<<<<<<<<<< ${mascota.dni} >>>>>>>>>>>>>>>>>>>>`}
+                          {`<<<<<<<<<<<<<<<<<<<< ${mascota.dni} >>>>>>>>>>>>>>>>>>>>`}
                           <br />
-                          {`<<<<<< ${mascota.nombre} ${mascota.apellido} >>>>>>>`}
+                          {padMascota(`${mascota.nombre} ${mascota.apellido}`)}
                           <br />
-                          {`<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS>>>>>>>>`}
+                          {`<<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS>>>>>>>>>`}
                         </p>
                       </div>
                     </section>

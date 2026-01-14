@@ -123,6 +123,18 @@ const ModalDniMascotas = ({ mascotas, isOpen, onOpenChange }: Props) => {
     }
   }, [isOpen, mascotas]);
 
+  const padMascota = (texto: string, total = 52) => {
+    const cleanText = texto.trim();
+    const faltantes = total - cleanText.length;
+
+    if (faltantes <= 0) return cleanText.slice(0, total);
+
+    const left = Math.floor(faltantes / 2);
+    const right = faltantes - left;
+
+    return `${"<".repeat(left)}${cleanText}${">".repeat(right)}`;
+  };
+
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">
       {loading && <Loading />}
@@ -380,12 +392,14 @@ const ModalDniMascotas = ({ mascotas, isOpen, onOpenChange }: Props) => {
                               </li>
                             </ul>
                             <Divider className="bg-[#1c61b6] h-[2px]" />
-                            <p className="text-xs py-2 text-center">
-                              {`<<<<<<<<<<<<<<<<<<< ${mascota.dni} >>>>>>>>>>>>>>>>>>>>`}
+                            <p className="font-[segoeui]  text-xs py-2 text-center">
+                              {`<<<<<<<<<<<<<<<<<<<< ${mascota.dni} >>>>>>>>>>>>>>>>>>>>`}
                               <br />
-                              {`<<<<<< ${mascota.usuario.nombre} ${mascota.usuario.apellido} >>>>>>>`}
+                              {padMascota(
+                                `${mascota.nombre} ${mascota.apellido}`
+                              )}
                               <br />
-                              {`<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS>>>>>>>>`}
+                              {`<<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS>>>>>>>>>`}
                             </p>
                             <img
                               className="absolute w-[80px] -bottom-6 -right-5 -rotate-30"
