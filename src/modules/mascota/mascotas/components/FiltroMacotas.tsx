@@ -3,6 +3,7 @@ import { inputClassNames } from "../../../../utils/classNames";
 import { RiSearchEyeFill } from "react-icons/ri";
 import ModalAddMascota from "./CrudMacotas/AddMascota";
 import type { User } from "../../../../type/user";
+import { useUserRole } from "../../../../utils/useUserRole";
 interface DataFilters {
   dniNombre: string | null;
   correo: string | null;
@@ -29,6 +30,9 @@ const FiltroMacotas = ({
   setDataFiltersMascotas,
   findUsuarios,
 }: Props) => {
+  const userRole = useUserRole();
+  console.log(userRole);
+
   return (
     <section className="w-full flex items-end gap-1 justify-between relative ">
       <div className="flex items-end gap-1">
@@ -81,13 +85,15 @@ const FiltroMacotas = ({
           <RiSearchEyeFill className="text-xl text-white" />
         </Button>
       </div>
-      <ModalAddMascota
-        findMascotas={findMascotas}
-        usuarios={usuarios}
-        dataFilters={dataFilters}
-        setDataFilters={setDataFilters}
-        findUsuarios={findUsuarios}
-      />
+      {userRole && userRole === "Admin" && (
+        <ModalAddMascota
+          findMascotas={findMascotas}
+          usuarios={usuarios}
+          dataFilters={dataFilters}
+          setDataFilters={setDataFilters}
+          findUsuarios={findUsuarios}
+        />
+      )}
     </section>
   );
 };

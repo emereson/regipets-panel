@@ -1,11 +1,10 @@
-// ============================================
-// 1. NavMascota.tsx - Ejemplo con el hook
-// ============================================
 import { MdOutlineCircle, MdOutlinePets } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { memo } from "react";
 import { useNavModule } from "../../hooks/useNavModule";
+import { MASCOTA_MENU } from "../../utils/mascotaMenu.config";
+import { useUserRole } from "../../utils/useUserRole";
 
 interface Props {
   openListModule: string;
@@ -13,6 +12,8 @@ interface Props {
 }
 
 const NavMascota = memo(({ openListModule, setOpenListModule }: Props) => {
+  const userRole = useUserRole();
+
   const {
     isActive,
     handleToggle,
@@ -24,6 +25,14 @@ const NavMascota = memo(({ openListModule, setOpenListModule }: Props) => {
     openListModule,
     setOpenListModule,
   });
+
+  // 🔐 Filtrar items según rol
+  const allowedItems = MASCOTA_MENU.filter(
+    (item) => userRole && item.roles.includes(userRole)
+  );
+
+  // ❌ Si no hay items permitidos, no renderizar el módulo
+  if (!allowedItems.length) return null;
 
   return (
     <nav className="relative">
@@ -42,90 +51,21 @@ const NavMascota = memo(({ openListModule, setOpenListModule }: Props) => {
       </button>
 
       <div id="mascota-submenu" className={dropdownClasses}>
-        <Link
-          className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
-          to="/mascotas"
-        >
-          <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />
-          <div className="relative z-10 flex items-center gap-6">
-            <MdOutlineCircle className="text-sm transition-all duration-300 group-hover/item:scale-125 group-hover/item:rotate-180" />
-            <span className="text-sm font-normal group-hover/item:translate-x-1 transition-transform duration-300">
-              Mascotas
-            </span>
-          </div>
-        </Link>
-        <Link
-          className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
-          to="/mascotas/ordenes"
-        >
-          <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />
-          <div className="relative z-10 flex items-center gap-6">
-            <MdOutlineCircle className="text-sm transition-all duration-300 group-hover/item:scale-125 group-hover/item:rotate-180" />
-            <span className="text-sm font-normal group-hover/item:translate-x-1 transition-transform duration-300">
-              Ordenes
-            </span>
-          </div>
-        </Link>
-        <Link
-          className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
-          to="/mascotas/busqueda"
-        >
-          <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />
-          <div className="relative z-10 flex items-center gap-6">
-            <MdOutlineCircle className="text-sm transition-all duration-300 group-hover/item:scale-125 group-hover/item:rotate-180" />
-            <span className="text-sm font-normal group-hover/item:translate-x-1 transition-transform duration-300">
-              Busqueda
-            </span>
-          </div>
-        </Link>
-        <Link
-          className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
-          to="/mascotas/aprobacion-registros"
-        >
-          <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />
-          <div className="relative z-10 flex items-center gap-4">
-            <MdOutlineCircle className="text-sm transition-all duration-300 group-hover/item:scale-125 group-hover/item:rotate-180" />
-            <span className="text-sm font-normal group-hover/item:translate-x-1 transition-transform duration-300">
-              Aprobacion de <br /> registros
-            </span>
-          </div>
-        </Link>
-        <Link
-          className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
-          to="/mascotas/raza"
-        >
-          <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />
-          <div className="relative z-10 flex items-center gap-6">
-            <MdOutlineCircle className="text-sm transition-all duration-300 group-hover/item:scale-125 group-hover/item:rotate-180" />
-            <span className="text-sm font-normal group-hover/item:translate-x-1 transition-transform duration-300">
-              Raza
-            </span>
-          </div>
-        </Link>
-        <Link
-          className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
-          to="/mascotas/convenios"
-        >
-          <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />
-          <div className="relative z-10 flex items-center gap-6">
-            <MdOutlineCircle className="text-sm transition-all duration-300 group-hover/item:scale-125 group-hover/item:rotate-180" />
-            <span className="text-sm font-normal group-hover/item:translate-x-1 transition-transform duration-300">
-              Convenios
-            </span>
-          </div>
-        </Link>
-        <Link
-          className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
-          to="/mascotas/certificados-dni"
-        >
-          <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />
-          <div className="relative z-10 flex items-center gap-6">
-            <MdOutlineCircle className="text-sm transition-all duration-300 group-hover/item:scale-125 group-hover/item:rotate-180" />
-            <span className="text-sm font-normal group-hover/item:translate-x-1 transition-transform duration-300">
-              Dni y Certificados
-            </span>
-          </div>
-        </Link>
+        {allowedItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className="h-[50px] flex items-center gap-4 px-8 hover:bg-[#0356ba] w-[280px] transition-all duration-300 group/item relative overflow-hidden"
+          >
+            <span className="absolute inset-0 bg-[#2776d8] transform -translate-x-full group-hover/item:translate-x-0 transition-transform duration-300 ease-out" />
+            <div className="relative z-10 flex items-center gap-6">
+              <MdOutlineCircle className="text-sm transition-all duration-300 group-hover/item:scale-125 group-hover/item:rotate-180" />
+              <span className="text-sm font-normal group-hover/item:translate-x-1 transition-transform duration-300">
+                {item.label}
+              </span>
+            </div>
+          </Link>
+        ))}
       </div>
     </nav>
   );

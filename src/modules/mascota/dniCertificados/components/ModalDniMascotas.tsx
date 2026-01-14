@@ -123,16 +123,27 @@ const ModalDniMascotas = ({ mascotas, isOpen, onOpenChange }: Props) => {
     }
   }, [isOpen, mascotas]);
 
-  const padMascota = (texto: string, total = 52) => {
-    const cleanText = texto.trim();
+  const padMascota = (texto: string, total = 50) => {
+    // 1. Limpiar símbolos de padding
+    let cleanText = texto.replace(/[<>]/g, "").trim();
+
+    // 2. Cortar si se pasa
+    if (cleanText.length > total) {
+      cleanText = cleanText.slice(0, total);
+    }
+
+    // 3. Calcular faltantes
     const faltantes = total - cleanText.length;
 
-    if (faltantes <= 0) return cleanText.slice(0, total);
-
+    // 4. Calcular padding
     const left = Math.floor(faltantes / 2);
     const right = faltantes - left;
 
-    return `${"<".repeat(left)}${cleanText}${">".repeat(right)}`;
+    // 5. Construir resultado
+    const result = `${"<".repeat(left)}${cleanText}${"<".repeat(right)}`;
+
+    // 6. Garantía final (defensivo)
+    return result.length === total ? result : result.slice(0, total);
   };
 
   return (
@@ -392,15 +403,21 @@ const ModalDniMascotas = ({ mascotas, isOpen, onOpenChange }: Props) => {
                               </li>
                             </ul>
                             <Divider className="bg-[#1c61b6] h-[2px]" />
-                            <p className="font-[segoeui]  text-xs py-2 text-center">
-                              {`<<<<<<<<<<<<<<<<<<<< ${mascota.dni} >>>>>>>>>>>>>>>>>>>>`}
-                              <br />
-                              {padMascota(
-                                `${mascota.nombre} ${mascota.apellido}`
-                              )}
-                              <br />
-                              {`<<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS>>>>>>>>>`}
-                            </p>
+                            <div className="w-full font-[segoeui] flex flex-col items-center  text-xs uppercase py-2 px-4 text-nowrap overflow-hidden">
+                              <p>
+                                {`<<<<<<<<<<<<<<<<<<<< ${mascota.dni} <<<<<<<<<<<<<<<<<<<<`}
+                              </p>
+                              <p>
+                                {padMascota(
+                                  `${mascota.nombre} ${mascota.apellido || "-"}`
+                                )}
+                              </p>
+
+                              <p>
+                                {" "}
+                                {`<<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS<<<<<<<<<`}
+                              </p>
+                            </div>
                             <img
                               className="absolute w-[80px] -bottom-6 -right-5 -rotate-30"
                               src="/logo2.png"

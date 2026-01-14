@@ -20,6 +20,7 @@ import { BsCardList } from "react-icons/bs";
 import CertificadoRegistro from "./CrudMacotas/CertificadoRegistro";
 import { PiCertificateFill } from "react-icons/pi";
 import CertificadoResponsable from "./CrudMacotas/CertificadoResponsable";
+import { useUserRole } from "../../../../utils/useUserRole";
 
 interface DataFiltersUser {
   search: string | null;
@@ -41,6 +42,8 @@ const TablaMacotas = ({
   setDataFilters,
   findUsuarios,
 }: Props) => {
+  const userRole = useUserRole();
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [selectMascota, setselectMascota] = useState<Mascota | null>(null);
@@ -158,17 +161,19 @@ const TablaMacotas = ({
                       onClick={() => handleEditarMascota(mascota)}
                     />
                   </Tooltip>
-                  <Tooltip
-                    content="Eliminar"
-                    showArrow={true}
-                    size="sm"
-                    color="danger"
-                  >
-                    <FaTrash
-                      className="text-lg text-red-600 cursor-pointer"
-                      onClick={() => handleEliminarMascota(mascota)}
-                    />
-                  </Tooltip>
+                  {userRole && userRole === "Admin" && (
+                    <Tooltip
+                      content="Eliminar"
+                      showArrow={true}
+                      size="sm"
+                      color="danger"
+                    >
+                      <FaTrash
+                        className="text-lg text-red-600 cursor-pointer"
+                        onClick={() => handleEliminarMascota(mascota)}
+                      />
+                    </Tooltip>
+                  )}
                   <Tooltip
                     content="Ver Dni"
                     showArrow={true}

@@ -60,21 +60,21 @@ const CertificadoResponsable = ({ mascota, isOpen, onOpenChange }: Props) => {
 
       // ===== CARGAR IMAGEN DE LA MASCOTA =====
       let imageBytes: ArrayBuffer | null = null;
-      if (mascota.usuario.foto) {
+      if (mascota.creador.foto && mascota.creador.rol === "Gobierno") {
         try {
           // Si mascota.foto es una URL
           if (
-            typeof mascota.usuario.foto === "string" &&
-            mascota.usuario.foto.startsWith("http")
+            typeof mascota.creador.foto === "string" &&
+            mascota.creador.foto.startsWith("http")
           ) {
             const imgRes = await fetch(
-              `${import.meta.env.VITE_URL_IMAGE}/${mascota.usuario.foto}`
+              `${import.meta.env.VITE_URL_IMAGE}/${mascota.creador.foto}`
             );
             imageBytes = await imgRes.arrayBuffer();
-          } else if (typeof mascota.usuario.foto === "string") {
+          } else if (typeof mascota.creador.foto === "string") {
             // Si es una ruta local
             const imgRes = await fetch(
-              `${import.meta.env.VITE_URL_IMAGE}/${mascota.usuario.foto}`
+              `${import.meta.env.VITE_URL_IMAGE}/${mascota.creador.foto}`
             );
             imageBytes = await imgRes.arrayBuffer();
           }
@@ -270,15 +270,6 @@ y departamento de ${mascota.departamento.departamento}.`;
                 onPress={() => onOpenChange(false)}
               >
                 Cancelar
-              </Button>
-
-              <Button
-                color="secondary"
-                size="sm"
-                onPress={generarCertificado}
-                isLoading={loading}
-              >
-                Previsualizar
               </Button>
 
               <Button

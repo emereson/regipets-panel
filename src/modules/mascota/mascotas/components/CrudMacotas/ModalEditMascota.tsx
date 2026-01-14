@@ -30,6 +30,7 @@ import useSelectEspeciesRaza from "../../../../../hooks/SelectEspeciesRaza";
 import { departamentos } from "../../../../../data/ubigeos/departamentos";
 import { provincias } from "../../../../../data/ubigeos/provincias";
 import { distritos } from "../../../../../data/ubigeos/distritos";
+import { useUserRole } from "../../../../../utils/useUserRole";
 
 interface DataFilters {
   search: string | null;
@@ -65,6 +66,7 @@ const ModalEditMascota = ({
     setSelectRaza,
     loadingRaza,
   } = useSelectEspeciesRaza();
+  const userRole = useUserRole();
 
   const [userId, setUserId] = useState<React.Key | null | undefined>(
     mascota?.usuario.id as React.Key | undefined
@@ -174,78 +176,82 @@ const ModalEditMascota = ({
         <ModalHeader className="pb-0">Editar Mascota</ModalHeader>
         <Divider className="bg-orange-100 h-0.5" />
         <ModalBody className="max-h-[80vh] overflow-y-auto">
-          <div className="w-full max-w-3xl flex items-end gap-1 ">
-            <Input
-              classNames={inputClassNames}
-              label="Buscar Usuario por nombre o email"
-              labelPlacement="outside"
-              name="NOMBRE APELLIDOS"
-              type="string"
-              placeholder="Buscar por Nombre Apellidos o email"
-              onChange={(e) =>
-                setDataFilters({
-                  ...dataFilters,
-                  search: e.target.value || "",
-                })
-              }
-              value={dataFilters.search || ""}
-              radius="sm"
-              size="sm"
-              id="correoUsuario"
-              variant="bordered"
-            />
+          {userRole && userRole === "Admin" && (
+            <div className="w-full max-w-3xl flex items-end gap-1 ">
+              <Input
+                classNames={inputClassNames}
+                label="Buscar Usuario por nombre o email"
+                labelPlacement="outside"
+                name="NOMBRE APELLIDOS"
+                type="string"
+                placeholder="Buscar por Nombre Apellidos o email"
+                onChange={(e) =>
+                  setDataFilters({
+                    ...dataFilters,
+                    search: e.target.value || "",
+                  })
+                }
+                value={dataFilters.search || ""}
+                radius="sm"
+                size="sm"
+                id="correoUsuario"
+                variant="bordered"
+              />
 
-            <Button
-              type="submit"
-              className="bg-[#0356ba] h-9 min-w-[50px] flex items-center justify-center cursor-pointer hover:bg-[#2776d8] transition-colors"
-              onPress={findUsuarios}
-              radius="sm"
-            >
-              <RiSearchEyeFill className="text-xl text-white" />
-            </Button>
-          </div>
+              <Button
+                type="submit"
+                className="bg-[#0356ba] h-9 min-w-[50px] flex items-center justify-center cursor-pointer hover:bg-[#2776d8] transition-colors"
+                onPress={findUsuarios}
+                radius="sm"
+              >
+                <RiSearchEyeFill className="text-xl text-white" />
+              </Button>
+            </div>
+          )}
 
           <form className="flex flex-col gap-3" onSubmit={handleSubmit(submit)}>
-            <Autocomplete
-              isRequired
-              className="w-full"
-              inputProps={{
-                classNames: {
-                  input: "text-[11px]",
-                  inputWrapper: "min-h-9 border-1.5 border-neutral-400",
-                  label: "pb-1 text-[11px] text-neutral-800 font-semibold",
-                },
-              }}
-              labelPlacement="outside"
-              label="Seleccionar Usuario"
-              placeholder="Seleccionar..."
-              selectedKey={userId ? userId.toString() : ""}
-              onSelectionChange={setUserId}
-              variant="bordered"
-              radius="sm"
-              size="sm"
-            >
-              <>
-                <SelectItem
-                  key={`${mascota.usuario?.id}`}
-                  textValue={`${mascota?.usuario?.nombre} - ${mascota?.usuario?.email}`}
-                >
-                  <p className="text-[11px]">
-                    {mascota?.usuario?.nombre} - {mascota?.usuario?.email}
-                  </p>{" "}
-                </SelectItem>
-                {usuarios.map((usuario) => (
+            {userRole && userRole === "Admin" && (
+              <Autocomplete
+                isRequired
+                className="w-full"
+                inputProps={{
+                  classNames: {
+                    input: "text-[11px]",
+                    inputWrapper: "min-h-9 border-1.5 border-neutral-400",
+                    label: "pb-1 text-[11px] text-neutral-800 font-semibold",
+                  },
+                }}
+                labelPlacement="outside"
+                label="Seleccionar Usuario"
+                placeholder="Seleccionar..."
+                selectedKey={userId ? userId.toString() : ""}
+                onSelectionChange={setUserId}
+                variant="bordered"
+                radius="sm"
+                size="sm"
+              >
+                <>
                   <SelectItem
-                    key={usuario.id.toString()}
-                    textValue={`${usuario.nombre} - ${usuario.email}`}
+                    key={`${mascota.usuario?.id}`}
+                    textValue={`${mascota?.usuario?.nombre} - ${mascota?.usuario?.email}`}
                   >
                     <p className="text-[11px]">
-                      {usuario.nombre} - {usuario.email}
-                    </p>
+                      {mascota?.usuario?.nombre} - {mascota?.usuario?.email}
+                    </p>{" "}
                   </SelectItem>
-                ))}
-              </>
-            </Autocomplete>
+                  {usuarios.map((usuario) => (
+                    <SelectItem
+                      key={usuario.id.toString()}
+                      textValue={`${usuario.nombre} - ${usuario.email}`}
+                    >
+                      <p className="text-[11px]">
+                        {usuario.nombre} - {usuario.email}
+                      </p>
+                    </SelectItem>
+                  ))}
+                </>
+              </Autocomplete>
+            )}
 
             <div className="w-full flex  gap-2">
               <Input
@@ -340,17 +346,19 @@ const ModalEditMascota = ({
                   </Select>
                 </div>
                 <div className="flex gap-1">
-                  <Input
-                    classNames={inputClassNames}
-                    label="Microchip"
-                    labelPlacement="outside"
-                    placeholder="..."
-                    variant="bordered"
-                    {...register("cod_microchip")}
-                    color="primary"
-                    radius="sm"
-                    size="sm"
-                  />
+                  {userRole && userRole === "Admin" && (
+                    <Input
+                      classNames={inputClassNames}
+                      label="Microchip"
+                      labelPlacement="outside"
+                      placeholder="..."
+                      variant="bordered"
+                      {...register("cod_microchip")}
+                      color="primary"
+                      radius="sm"
+                      size="sm"
+                    />
+                  )}
                   <Input
                     isRequired
                     classNames={inputClassNames}
@@ -635,25 +643,27 @@ const ModalEditMascota = ({
                 size="sm"
                 defaultValue={mascota.direccion}
               />
-              <Select
-                className="w-70"
-                isRequired
-                classNames={selectClassNames}
-                label="Tipo de Registro"
-                labelPlacement="outside"
-                variant="bordered"
-                radius="sm"
-                size="sm"
-                {...register("tipo_mascota")}
-                defaultSelectedKeys={[mascota.tipo_mascota]}
-              >
-                <SelectItem key="PREMIUM" textValue="PREMIUM">
-                  <p className="text-[11px]">PREMIUM</p>
-                </SelectItem>
-                <SelectItem key="CLASICO" textValue="CLASICO">
-                  <p className="text-[11px]">CLASICO</p>
-                </SelectItem>
-              </Select>
+              {userRole && userRole === "Admin" && (
+                <Select
+                  className="w-70"
+                  isRequired
+                  classNames={selectClassNames}
+                  label="Tipo de Registro"
+                  labelPlacement="outside"
+                  variant="bordered"
+                  radius="sm"
+                  size="sm"
+                  {...register("tipo_mascota")}
+                  defaultSelectedKeys={[mascota.tipo_mascota]}
+                >
+                  <SelectItem key="PREMIUM" textValue="PREMIUM">
+                    <p className="text-[11px]">PREMIUM</p>
+                  </SelectItem>
+                  <SelectItem key="CLASICO" textValue="CLASICO">
+                    <p className="text-[11px]">CLASICO</p>
+                  </SelectItem>
+                </Select>
+              )}
             </div>
 
             <div className="flex gap-1">

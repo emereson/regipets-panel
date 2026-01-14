@@ -105,16 +105,27 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
   //     generarPDF();
   //   }
   // }, [isOpen, mascota]);
-  const padMascota = (texto: string, total = 52) => {
-    const cleanText = texto.trim();
+  const padMascota = (texto: string, total = 50) => {
+    // 1. Limpiar símbolos de padding
+    let cleanText = texto.replace(/[<>]/g, "").trim();
+
+    // 2. Cortar si se pasa
+    if (cleanText.length > total) {
+      cleanText = cleanText.slice(0, total);
+    }
+
+    // 3. Calcular faltantes
     const faltantes = total - cleanText.length;
 
-    if (faltantes <= 0) return cleanText.slice(0, total);
-
+    // 4. Calcular padding
     const left = Math.floor(faltantes / 2);
     const right = faltantes - left;
 
-    return `${"<".repeat(left)}${cleanText}${">".repeat(right)}`;
+    // 5. Construir resultado
+    const result = `${"<".repeat(left)}${cleanText}${"<".repeat(right)}`;
+
+    // 6. Garantía final (defensivo)
+    return result.length === total ? result : result.slice(0, total);
   };
 
   return (
@@ -133,18 +144,15 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                 </div>
               )}
 
-              {/* Contenedores ocultos para generar imágenes */}
-              <div
-              // style={{
-              //   position: "fixed",
-              //   top: "-9999px",
-              //   left: "-9999px",
-              //   width: "auto",
-              //   height: "auto",
-              // }}
-              >
-                <div className="w-fit min-h-[331px] max-h-[331px] bg-white">
-                  <div className="w-[517px] h-[331px] relative bg-white m-auto flex flex-col items-center justify-start rounded-md overflow-hidden">
+              <div>
+                <div className="w-fit min-h-[331px] max-h-[331px] ">
+                  <div
+                    className={`w-[517px] h-[331px] relative ${
+                      mascota.tipo_mascota === "PREMIUM"
+                        ? "bg-[#1c61b6]"
+                        : "bg-[#ffff]"
+                    } m-auto flex flex-col items-center justify-start rounded-md overflow-hidden`}
+                  >
                     <img
                       className="absolute top-0 left-0 w-full h-full object-cover opacity-30"
                       src="/backBlanco-2-01.png"
@@ -154,7 +162,13 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                           "invert(0.08) sepia(0.22) saturate(5) hue-rotate(175deg) brightness(0.9) contrast(0.85)",
                       }}
                     />
-                    <div className="min-w-[350px] min-h-[18px] bg-[#1c61b6] mt-[2px] rounded-xs z-10"></div>
+                    <div
+                      className={`min-w-[350px] min-h-[18px] ${
+                        mascota.tipo_mascota === "PREMIUM"
+                          ? "bg-[#ffffff]"
+                          : "bg-[#1c61b6]"
+                      } mt-[2px] rounded-xs z-10`}
+                    ></div>
                     <div className="w-full h-full flex px-4 pb-3 z-10">
                       <section className="min-w-[140px] max-w-[140px] flex flex-col justify-start">
                         <div className="w-fit flex flex-col items-center -ml-4">
@@ -189,13 +203,25 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                         <h3 className="w-fit  text-center px-8 bg-orange-500 text-white font-[segoeuiBold]">
                           {mascota.apellido}
                         </h3>
-                        <div className="w-full relative mt-3 border-2 border-[#1c61b6] rounded-md overflow-hidden">
+                        <div
+                          className={`w-full relative mt-3 border-2 ${
+                            mascota.tipo_mascota === "PREMIUM"
+                              ? "border-[#ffffff]"
+                              : "border-[#1c61b6]"
+                          } rounded-md overflow-hidden`}
+                        >
                           <ul className="flex text-center px-2 py-1">
                             <li className="w-1/3 text-xs">Calificación</li>
                             <li className="w-1/3 text-xs">Esterilizado</li>
                             <li className="w-1/3 text-xs">Sexo</li>
                           </ul>
-                          <Divider className="bg-[#1c61b6] h-[2px]" />
+                          <Divider
+                            className={`${
+                              mascota.tipo_mascota === "PREMIUM"
+                                ? "bg-[#ffffff]"
+                                : "bg-[#1c61b6]"
+                            } h-[2px]`}
+                          />
                           <ul className="flex text-center px-2 py-1">
                             <li className="w-1/3 text-xs text-black">
                               {mascota.calificacion}
@@ -207,23 +233,47 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                               {mascota.sexo}
                             </li>
                           </ul>
-                          <Divider className="bg-[#1c61b6] h-[2px]" />
+                          <Divider
+                            className={`${
+                              mascota.tipo_mascota === "PREMIUM"
+                                ? "bg-[#ffffff]"
+                                : "bg-[#1c61b6]"
+                            } h-[2px]`}
+                          />{" "}
                           <ul className="w-full p-4 text-xs">
                             <li className="w-full flex justify-between py-[2px]">
                               <p className="w-1/2">Fecha de Nacimiento</p>
-                              <p className="w-2/5 text-center border-b-2 border-[#1c61b6] text-black">
+                              <p
+                                className={`w-2/5 text-center border-b-2 ${
+                                  mascota.tipo_mascota === "PREMIUM"
+                                    ? "border-white text-white"
+                                    : "border-[#1c61b6] text-black"
+                                }  `}
+                              >
                                 {formatDate(mascota.fecha_nacimiento)}
                               </p>
                             </li>
                             <li className="w-full flex justify-between py-[2px]">
                               <p className="w-1/2">Fecha de Emisión</p>
-                              <p className="w-2/5 text-center border-b-2 border-[#1c61b6] text-black">
+                              <p
+                                className={`w-2/5 text-center border-b-2 ${
+                                  mascota.tipo_mascota === "PREMIUM"
+                                    ? "border-white text-white"
+                                    : "border-[#1c61b6] text-black"
+                                }  `}
+                              >
                                 {formatDate(mascota.fecha_inscripcion)}
                               </p>
                             </li>
                             <li className="w-full flex justify-between py-[2px]">
                               <p className="w-1/2">Fecha de Inscripción</p>
-                              <p className="w-2/5 text-center border-b-2 border-[#1c61b6] text-black">
+                              <p
+                                className={`w-2/5 text-center border-b-2 ${
+                                  mascota.tipo_mascota === "PREMIUM"
+                                    ? "border-white text-white"
+                                    : "border-[#1c61b6] text-black"
+                                }  `}
+                              >
                                 {formatDate(mascota.fecha_inscripcion)}
                               </p>
                             </li>
@@ -346,13 +396,21 @@ const ModalDniMascota = ({ mascota, isOpen, onOpenChange }: Props) => {
                           </li>
                         </ul>
                         <Divider className="bg-[#616160] h-[2px]" />
-                        <p className="font-[segoeui]  text-xs py-2 text-center">
-                          {`<<<<<<<<<<<<<<<<<<<< ${mascota.dni} >>>>>>>>>>>>>>>>>>>>`}
-                          <br />
-                          {padMascota(`${mascota.nombre} ${mascota.apellido}`)}
-                          <br />
-                          {`<<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS>>>>>>>>>`}
-                        </p>
+                        <div className="w-full font-[segoeui] flex flex-col items-center  text-xs uppercase py-2 px-4 text-nowrap overflow-hidden">
+                          <p>
+                            {`<<<<<<<<<<<<<<<<<<<< ${mascota.dni} <<<<<<<<<<<<<<<<<<<<`}
+                          </p>
+                          <p>
+                            {padMascota(
+                              `${mascota.nombre} ${mascota.apellido || "-"}`
+                            )}
+                          </p>
+
+                          <p>
+                            {" "}
+                            {`<<<<<<<<<<RUM<REGISTRO<UNICO<DE<MASCOTAS<<<<<<<<<`}
+                          </p>
+                        </div>
                       </div>
                     </section>
                   </div>
